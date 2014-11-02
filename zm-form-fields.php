@@ -487,7 +487,7 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_radio( $field, $current_form, $value ){
+    public function do_radio( $field, $current_form ){
 
         extract( $this->get_attributes( $field, $current_form ) );
 
