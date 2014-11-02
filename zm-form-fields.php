@@ -21,11 +21,9 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_text( $field=null, $current_form=null, $value=null ){
+    public function do_text( $field=null, $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
-
-        $value = empty( $current_value ) ? $value : $current_value;
 
         $required = ( $req == true ) ? ' required ' : null;
         $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
@@ -42,11 +40,9 @@ Class ZM_Form_Fields {
     }
 
 
-    public function do_email( $field=null, $current_form=null, $value=null ){
+    public function do_email( $field=null, $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
-
-        $value = empty( $current_value ) ? $value : $current_value;
 
         $required = ( $req == true ) ? ' required ' : null;
         $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
@@ -73,11 +69,9 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_hidden( $field=null, $current_form=null, $value=null ){
+    public function do_hidden( $field=null, $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
-
-        $value = empty( $current_value ) ? $value : $current_value;
 
         $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $row .= '<label for="' . $for . '">' . $title . '</label>';
@@ -101,11 +95,9 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_url( $field=null, $current_form=null, $value=null ){
+    public function do_url( $field=null, $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
-
-        $value = empty( $current_value ) ? $value : $current_value;
 
         $required = ( $req == true ) ? ' required ' : null;
         $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
@@ -194,14 +186,12 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_select( $field=array(), $current_form=null, $value=null ){
+    public function do_select( $field=array(), $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
 
         if ( empty( $field['options'] ) )
             return;
-
-        $value = empty( $current_value ) ? $value : $current_value;
 
         $options = '<option value="">-- Select a Value --</option>';
         foreach( $field['options'] as $k => $v ) {
@@ -232,14 +222,13 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_multiselect( $field=array(), $current_form=null, $value=null ){
+    public function do_multiselect( $field=array(), $current_form=null ){
         extract( $this->get_attributes( $field, $current_form ) );
 
         if ( empty( $field['options'] ) ){
             $html = 'No options';
         } else {
 
-            $value = empty( $current_value ) ? $value : $current_value;
             if ( is_string( $value ) ){
                 $value = explode(',', $value);
             }
@@ -277,7 +266,7 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_us_state_select( $field=array(), $current_form=null, $value=null ){
+    public function do_us_state_select( $field=array(), $current_form=null ){
         $states = array(
             'AL' => 'Alabama',
             'AK' => 'Alaska',
@@ -333,7 +322,6 @@ Class ZM_Form_Fields {
             );
 
         extract( $this->get_attributes( $field, $current_form ) );
-        $value = empty( $current_value ) ? $value : $current_value;
 
         $options = '<option value="">-- Select a Value --</option>';
         foreach( $states as $k => $v ) {
@@ -364,11 +352,9 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_textarea( $field=array(), $current_form=null, $value=null ){
+    public function do_textarea( $field=array(), $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
-
-        $value = empty( $current_value ) ? $value : $current_value;
 
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . '</label>';
         $html .= '<textarea id="' . $input_id . '" name="' . $name . '" rows="'.$rows.'" cols="'.$cols.'" class="large-text '.$field_class.'" placeholder="' . $placeholder . '">' . esc_textarea( $value ) . '</textarea>';
@@ -390,11 +376,9 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_css_textarea( $field=array(), $current_form=null, $value=null ){
+    public function do_css_textarea( $field=array(), $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
-
-        $value = empty( $current_value ) ? $value : $current_value;
 
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . '</label>';
         $html .= '<textarea class="large-text" name="' . $name . '" placeholder="' . $placeholder . '">' . wp_kses( $value, '' ) . '</textarea>';
@@ -416,7 +400,7 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_textarea_emails( $field=array(), $current_form=null, $value=null ){
+    public function do_textarea_emails( $field=array(), $current_form=null ){
         return $this->do_textarea( $field, $current_form, $value );
     }
 
@@ -429,11 +413,9 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_checkbox( $field=array(), $current_form=null, $value=null ){
+    public function do_checkbox( $field=array(), $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
-
-        $value = empty( $current_value ) ? $value : $current_value;
 
         $html = '<p class="'.$row_class.'"><input type="checkbox" name="'.$name.'" id="' . $input_id .'" value="1" ' . checked( 1, $value, false ) . '/>';
         $html .= '<label for="' . $for . '_checkbox">' . $title . '</label></p>';
@@ -453,7 +435,7 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_upload( $field=array(), $current_form=null, $value=null ){
+    public function do_upload( $field=array(), $current_form=null ){
 
         wp_enqueue_media();
         wp_enqueue_script( 'custom-header' );
@@ -509,7 +491,6 @@ Class ZM_Form_Fields {
         if ( empty( $field['options'] ) )
             return;
 
-        $value = empty( $current_value ) ? $value : $current_value;
         $options = null;
 
         $required = ( $req == true ) ? ' required ' : null;
@@ -565,7 +546,7 @@ Class ZM_Form_Fields {
      * do_thickbox_url( $field=null, $current_form=null, $value=null
      * @return
      */
-    public function do_thickbox_url( $field=null, $current_form=null, $value=null ){
+    public function do_thickbox_url( $field=null, $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
 
@@ -615,12 +596,13 @@ Class ZM_Form_Fields {
             'req' => empty( $field['req'] ) ? null : $field['req'],
             'desc' => empty( $field['desc'] ) ? null : '<span class="description">' . $field['desc'] . '</span>',
             'echo' => empty( $field['echo'] ) ? false : true,
-            'current_value' => empty( $field['value'][ $field['id'] ] ) ? null : $field['value'][ $field['id'] ],
+            'value' => empty( $field['value'] ) ? null : $field['value'],
             'style' => empty( $field['style'] ) ? null : $field['style'],
             'std' => empty( $field['std'] ) ? null : $field['std'],
             'rows' => empty( $field['rows'] ) ? 4 : $field['rows'],
             'cols' => empty( $field['cols'] ) ? 8 : $field['cols'],
             );
+
         return $attr;
     }
 
@@ -715,6 +697,7 @@ Class ZM_Form_Fields {
     public function get_meta_fields_html( $post_id=null, $current_form=null ){
 
         $meta = $this->get_values( $post_id );
+
         $my_fields = $this->get_fields();
         $html = null;
 
@@ -725,33 +708,33 @@ Class ZM_Form_Fields {
                 } else {
                     foreach( $fields as $field ) :
 
-                        $value = empty( $meta[ $field['id'] ] ) ? null : $meta[ $field['id'] ];
+                        $field['value'] = empty( $meta[ $field['id'] ] ) ? null :  $meta[ $field['id'] ];
 
                         switch( $field['type'] ) {
 
                             case 'select' :
-                                $html .= $this->do_select( $field, $current_form, $value );
+                                $html .= $this->do_select( $field, $current_form );
                                 break;
 
                             case 'multiselect' :
-                                $html .= $this->do_multiselect( $field, $current_form, $value );
+                                $html .= $this->do_multiselect( $field, $current_form );
                                 break;
 
                             case 'us_state' :
-                                $html .= $this->do_us_state_select( $field, $current_form, $value );
+                                $html .= $this->do_us_state_select( $field, $current_form );
                                 break;
 
                             case 'textarea' :
                             case 'textarea_email_template' :
-                                $html .= $this->do_textarea( $field, $current_form, $value );
+                                $html .= $this->do_textarea( $field, $current_form );
                                 break;
 
                             case 'textarea_emails' :
-                                $html .= $this->do_textarea_emails( $field, $current_form, $value );
+                                $html .= $this->do_textarea_emails( $field, $current_form );
                                 break;
 
                             case 'open_fieldset' :
-                                $html .= $this->do_open_fieldset( $field, $current_form, $value );
+                                $html .= $this->do_open_fieldset( $field, $current_form );
                                 break;
 
                             case 'end_fieldset' :
@@ -759,7 +742,7 @@ Class ZM_Form_Fields {
                                 break;
 
                             case 'open_section' :
-                                $html .= $this->do_open_section( $field, $current_form, $value );
+                                $html .= $this->do_open_section( $field, $current_form );
                                 break;
 
                             case 'end_section' :
@@ -767,19 +750,19 @@ Class ZM_Form_Fields {
                                 break;
 
                             case 'checkbox' :
-                                $html .= $this->do_checkbox( $field, $current_form, $value );
+                                $html .= $this->do_checkbox( $field, $current_form );
                                 break;
 
                             case 'radio' :
-                                $html .= $this->do_radio( $field, $current_form, $value );
+                                $html .= $this->do_radio( $field, $current_form );
                                 break;
 
                             case 'hidden' :
-                                $html .= $this->do_hidden( $field, $current_form, $value );
+                                $html .= $this->do_hidden( $field, $current_form );
                                 break;
 
                             case 'upload' :
-                                $html .= $this->do_upload( $field, $current_form, $value );
+                                $html .= $this->do_upload( $field, $current_form );
                                 break;
 
                             case 'html' :
@@ -787,15 +770,15 @@ Class ZM_Form_Fields {
                                 break;
 
                             case 'thickbox_url' :
-                                $html .= $this->do_thickbox_url( $field, $current_form, $value );
+                                $html .= $this->do_thickbox_url( $field, $current_form );
                                 break;
 
                             case 'email' :
-                                $html .= $this->do_email( $field, $current_value, $value );
+                                $html .= $this->do_email( $field, $current_form );
                                 break;
 
                             default:
-                                $html .= $this->do_text( $field, $current_form, $value );
+                                $html .= $this->do_text( $field, $current_form );
                                 break;
                         }
 
@@ -880,8 +863,10 @@ Class ZM_Form_Fields {
             }
         }
 
-        do_action( 'zm_form_' . $current_form . '_before_save_meta', $post_id, $meta );
-        return update_post_meta( $post_id, '_zm_form_meta', $sanitized );
+        $post_id = apply_filters( 'zm_form_' . $current_form . '_before_save_meta', $post_id, $meta );
+        update_post_meta( $post_id, '_zm_form_meta', $sanitized );
+
+        return $post_id;
     }
 
 
