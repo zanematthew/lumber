@@ -854,10 +854,7 @@ Class ZM_Form_Fields {
                     $type = empty( $v['type'] ) ? 'default' : $v['type'];
 
                     // sanitize by type
-                    $value = $this->sanitize( $type, $v['value'] );
-
-                    // sanitize by id
-                    $value = apply_filters( 'zm_form_sanitize_' . $current_form . '_' . $v['id'], $value );
+                    $value = $this->sanitize( $type, $v, $current_value );
 
                     // Build our array of values
                     $sanitized[ $k ] = $value;
@@ -866,8 +863,12 @@ Class ZM_Form_Fields {
             }
         }
 
+        $sanitized = apply_filters( 'zm_form_' . $current_form . '_sanitized_meta', $sanitized );
         $post_id = apply_filters( 'zm_form_' . $current_form . '_before_save_meta', $post_id, $meta );
-        update_post_meta( $post_id, '_zm_form_meta', $sanitized );
+        if ( $post_id !== false ){
+            // http://codex.wordpress.org/Function_Reference/sanitize_meta
+            update_post_meta( $post_id, '_zm_form_meta', $sanitized );
+        }
 
         return $post_id;
     }
@@ -885,27 +886,32 @@ Class ZM_Form_Fields {
      *
      * @return  Sanitized value
      */
-    public function sanitize( $type=null, $value=null ){
+    public function sanitize( $type=null, $field=null, $current_form=null ){
+
         switch ( $type ) {
             case 'textarea':
-                $value = esc_textarea( $value );
+                $value = esc_textarea( $field['value'] );
                 break;
 
             case 'checkbox' :
-                $value = intval( $value );
+                $value = intval( $field['value'] );
                 break;
 
             case 'email' :
-                $value = sanitize_email( $value );
+                $value = sanitize_email( $field['value'] );
                 break;
 
             case 'float' :
-                $value = floatval( $value );
+                $value = floatval( $field['value'] );
                 break;
 
             case 'multiselect' :
                 print_r( $value );
                 break;
+
+            // case 'number' :
+                // $value = $this->sanitize_number( $field );
+                // break;
 
             case 'text' :
             case 'us_state' :
@@ -916,7 +922,30 @@ Class ZM_Form_Fields {
                 break;
         }
 
-        return $value;
+        // sanitize by id
+        // $value = apply_filters( 'zm_form_sanitize_' . $current_form . '_' . $field['id'], $value );
+
+        return $field['value'];
+    }
+
+
+    public function sanitize_number( $field=null, $min=null, $max=null ){
+
+        $value = trim( $field['value'] );
+
+        if ( empty( $value ) ){
+            $field['error'] = 'empty';
+        } elseif ( ! is_numeric( $value ) ){
+            $field['error'] = 'not a number';
+        } elseif ( $value > $max ){
+            $field['error'] = 'too big';
+        } elseif ( $value < $min ){
+            $field['error'] = 'too small';
+        } else {
+
+        }
+
+        return $field;
     }
 
 
