@@ -193,6 +193,9 @@ Class ZM_Form_Fields {
         if ( empty( $field['options'] ) )
             return;
 
+        if ( empty( $value ) && ! empty( $std ) )
+            $value = $std;
+
         $options = '<option value="">-- Select a Value --</option>';
         foreach( $field['options'] as $k => $v ) {
             $options .= '<option value="' . $k . '" ' . selected( $k, $value, false ) . '>' . $v . '</option>';
