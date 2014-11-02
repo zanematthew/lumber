@@ -42,6 +42,27 @@ Class ZM_Form_Fields {
     }
 
 
+    public function do_email( $field=null, $current_form=null, $value=null ){
+
+        extract( $this->get_attributes( $field, $current_form ) );
+
+        $value = empty( $current_value ) ? $value : $current_value;
+
+        $required = ( $req == true ) ? ' required ' : null;
+        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+
+        $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
+        $row .= '<label for="' . $for . '">' . $title . $required_html . '</label>';
+        $row .= '<input type="email" id="' . $input_id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" />';
+        $row .= '</p>';
+
+        if ( $echo )
+            echo $row;
+        else
+            return $row;
+    }
+
+
     /**
      *
      * @since 1.0
@@ -767,6 +788,10 @@ Class ZM_Form_Fields {
 
                             case 'thickbox_url' :
                                 $html .= $this->do_thickbox_url( $field, $current_form, $value );
+                                break;
+
+                            case 'email' :
+                                $html .= $this->do_email( $field, $current_value, $value );
                                 break;
 
                             default:
