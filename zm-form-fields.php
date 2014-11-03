@@ -430,6 +430,43 @@ Class ZM_Form_Fields {
     }
 
 
+    public function do_checkboxes( $field=array(), $current_form=null ){
+
+        extract( $this->get_attributes( $field, $current_form ) );
+
+        if ( empty( $field['options'] ) )
+            return;
+
+        $options = null;
+
+        $required = ( $req == true ) ? ' required ' : null;
+        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+
+        foreach( $field['options'] as $k => $v ) {
+
+            $key = sanitize_title( $k );
+            $id = $input_id . '_' . $key;
+
+            if ( ! empty( $field['value'] ) && in_array( $key, $field['value'] ) ){
+                $checked = "checked=check";
+            } else {
+                $checked = null;
+            }
+
+            $options .= '<input type="checkbox" class="" name="'.$name.'[]" id="' . $id . '" value="' . $key . '" ' . $checked . ' /><label for="' . $id . '">' . $v . $required_html . '</label><br />';
+        }
+
+        $html  = '<p class="' . $row_class . '" id="' . $row_id . '">';
+        $html .= $options;
+        $html .= $desc;
+
+        if ( $echo )
+            echo $html;
+        else
+            return $html;
+    }
+
+
     /**
      *
      * @since 1.0
@@ -754,6 +791,10 @@ Class ZM_Form_Fields {
 
                             case 'checkbox' :
                                 $html .= $this->do_checkbox( $field, $current_form );
+                                break;
+
+                            case 'checkboxes' :
+                                $html .= $this->do_checkboxes( $field, $current_form );
                                 break;
 
                             case 'radio' :
