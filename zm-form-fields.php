@@ -959,14 +959,14 @@ Class ZM_Form_Fields {
             case 'select' :
             case 'phone' :
             default:
-                $value = esc_attr( $value );
+                $value = esc_attr( $field['value'] );
                 break;
         }
 
         // sanitize by id
         // $value = apply_filters( 'zm_form_sanitize_' . $current_form . '_' . $field['id'], $value );
 
-        return $field['value'];
+        return $value;
     }
 
 
