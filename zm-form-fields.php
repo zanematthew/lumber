@@ -132,7 +132,7 @@ Class ZM_Form_Fields {
             $id = $field['id'];
         }
 
-        $html = '<div class="' . $row_class . ' zm-form-open-fieldset">';
+        $html = '<div class="' . $row_class . ' zm-form-open-fieldset" id="zm_form_open_fieldset_' . $field['id'] . '">';
         $html .= '<fieldset id="zm_form_' . $current_form . '_' . $id . '_fieldset"><legend>' . $title . '</legend>';
         return $html;
     }
