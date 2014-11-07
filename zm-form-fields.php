@@ -30,7 +30,8 @@ Class ZM_Form_Fields {
 
         $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $row .= '<label for="' . $for . '">' . $title . $required_html . '</label>';
-        $row .= '<input type="text" id="' . $input_id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" />';
+        $row .= '<input type="text" id="' . $id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" />';
+        $row .= $desc;
         $row .= '</p>';
 
         if ( $echo )
@@ -49,7 +50,7 @@ Class ZM_Form_Fields {
 
         $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $row .= '<label for="' . $for . '">' . $title . $required_html . '</label>';
-        $row .= '<input type="email" id="' . $input_id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" />';
+        $row .= '<input type="email" id="' . $id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" />';
         $row .= '</p>';
 
         if ( $echo )
@@ -75,7 +76,7 @@ Class ZM_Form_Fields {
 
         $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $row .= '<label for="' . $for . '">' . $title . '</label>';
-        $row .= '<input type="text" id="' . $input_id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $style . '/>';
+        $row .= '<input type="hidden" id="' . $id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $style . '/>';
         $row .= '</p>';
 
         if ( $echo )
@@ -104,7 +105,8 @@ Class ZM_Form_Fields {
 
         $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $row .= '<label for="' . $for . '">' . $title . $required_html . '</label>';
-        $row .= '<input type="url" id="' . $input_id . '" name="' . $name . '" value="' . esc_url( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $required . '/>';
+        $row .= '<input type="url" id="' . $id . '" name="' . $name . '" value="' . esc_url( $value ) . '" placeholder="' . $placeholder . '" size="25" class="large-text ' . $field_class . '" ' . $required . '/>';
+        $row .= $desc;
         $row .= '</p>';
 
         if ( $echo )
@@ -205,10 +207,11 @@ Class ZM_Form_Fields {
         $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
 
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . $required_html . '</label> ';
-        $html .= '<select name="' . $name . '" ' . $required . ' id="' . $input_id . '">';
+        $html .= '<select name="' . $name . '" ' . $required . ' id="' . $id . '">';
         $html .= $options;
         $html .= '</select>';
         $html .= $desc;
+        $html .= '</p>';
 
         if ( $echo )
             echo $html;
@@ -247,7 +250,7 @@ Class ZM_Form_Fields {
             }
 
             $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . '</label> ';
-            $html .= '<select name="' . $name . '[]" multiple id="' . $input_id . '">';
+            $html .= '<select name="' . $name . '[]" multiple id="' . $id . '">';
             $html .= $options;
             $html .= '</select>';
             $html .= $desc;
@@ -335,7 +338,7 @@ Class ZM_Form_Fields {
         $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
 
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . $required_html . '</label>';
-        $html .= '<select name="' . $name . '" ' . $required . ' id="' . $input_id . '">';
+        $html .= '<select name="' . $name . '" ' . $required . ' id="' . $id . '">';
         $html .= $options;
         $html .= '</select></p>';
         $html .= $desc;
@@ -360,7 +363,7 @@ Class ZM_Form_Fields {
         extract( $this->get_attributes( $field, $current_form ) );
 
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . '</label>';
-        $html .= '<textarea id="' . $input_id . '" name="' . $name . '" rows="'.$rows.'" cols="'.$cols.'" class="large-text '.$field_class.'" placeholder="' . $placeholder . '">' . esc_textarea( $value ) . '</textarea>';
+        $html .= '<textarea id="' . $id . '" name="' . $name . '" rows="'.$rows.'" cols="'.$cols.'" class="large-text '.$field_class.'" placeholder="' . $placeholder . '">' . esc_textarea( $value ) . '</textarea>';
         $html .= $desc;
         $html .= '</p>';
 
@@ -420,7 +423,7 @@ Class ZM_Form_Fields {
 
         extract( $this->get_attributes( $field, $current_form ) );
 
-        $html = '<p class="'.$row_class.'"><input type="checkbox" name="'.$name.'" id="' . $input_id .'" value="1" ' . checked( 1, $value, false ) . '/>';
+        $html = '<p class="'.$row_class.'"><input type="checkbox" name="'.$name.'" id="' . $id .'" value="1" ' . checked( 1, $value, false ) . '/>';
         $html .= '<label for="' . $for . '_checkbox">' . $title . '</label></p>';
 
         if ( $echo )
@@ -445,7 +448,7 @@ Class ZM_Form_Fields {
         foreach( $field['options'] as $k => $v ) {
 
             $key = sanitize_title( $k );
-            $id = $input_id . '_' . $key;
+            $id = $id . '_' . $key;
 
             if ( ! empty( $field['value'] ) && in_array( $key, $field['value'] ) ){
                 $checked = "checked=check";
@@ -459,6 +462,7 @@ Class ZM_Form_Fields {
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $html .= $options;
         $html .= $desc;
+        $html .= '</p>';
 
         if ( $echo )
             echo $html;
@@ -497,13 +501,13 @@ Class ZM_Form_Fields {
         $row .= '<label for="' . $for . '">' . $title . '</label>';
 
 
-        $row .= '<span class="zm-form-fields-upload-container" style="margin: -10px 0 0 200px; display: block; width: 50%;">';
+        $row .= '<span class="zm-form-fields-upload-container">';
         $row .= '<a href="#" class="button zm-form-fields-media-upload-handle" style="margin-bottom: 10px;">' . __('Upload', 'zm_alr_pro') . '</a><br />';
         $row .= '<span class="zm-form-fields-upload-image-container" ' . $style . '>';
         $row .= $image;
         $row .= '</span>';
         $row .= '<br /><a href="#" class="zm-form-fields-upload-remove-handle" ' . $style . '>' . __('Remove', 'zm_alr_pro_settings') . '</a>';
-        $row .= '<input type="hidden" class="zm-form-fields-upload-attachment-id" id="'.$input_id.'" name="' . $name . '" value="' . $value . '"/>';
+        $row .= '<input type="hidden" class="zm-form-fields-upload-attachment-id" id="'.$id.'" name="' . $name . '" value="' . $value . '"/>';
         $row .= '</span>';
 
         $row .= '</p>';
@@ -524,7 +528,7 @@ Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_radio( $field, $current_form ){
+    public function do_radio( $field=null, $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
 
@@ -539,7 +543,7 @@ Class ZM_Form_Fields {
         foreach( $field['options'] as $k => $v ) {
 
             $key = sanitize_title( $k );
-            $id = $input_id . '_' . $key;
+            $id = $id . '_' . $key;
 
             $options .= '<input type="radio" class="" name="'.$name.'" id="' . $id . '" value="' . $key . '" ' . checked( $key, $value, false ) . ' /><label for="' . $id . '">' . $v . $required_html . '</label><br />';
         }
@@ -547,6 +551,7 @@ Class ZM_Form_Fields {
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $html .= $options;
         $html .= $desc;
+        $html .= '</p>';
 
         if ( $echo )
             echo $html;
@@ -584,20 +589,24 @@ Class ZM_Form_Fields {
      * @since 1.0
      *
      * do_thickbox_url( $field=null, $current_form=null, $value=null
+     * @uses add_thickbox() http://codex.wordpress.org/ThickBox
+     * @uses add_query_arg() http://codex.wordpress.org/Function_Reference/add_query_arg
+     * @uses esc_url() http://codex.wordpress.org/Function_Reference/esc_url
      * @return
      */
     public function do_thickbox_url( $field=null, $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
 
-        // var_dump($placeholder); // for title of hidden content
-        // var_dump($std); // for URL
-
         add_thickbox();
 
         $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $row .= '<label for="' . $for . '">' . $title . '</label>';
-        $row .= '<a href="' . esc_url( $std ) . '&TB_iframe=true&width=600&height=550" class="thickbox">' . $placeholder . '</a>';
+        $row .= '<a href="' . add_query_arg( array(
+            'TB_iframe' => 'true',
+            'width' => '600',
+            'height' => '550'
+            ), esc_url( $std ) ) . '" class="thickbox">' . $placeholder . '</a>';
         $row .= '</p>';
 
         if ( $echo )
@@ -621,18 +630,20 @@ Class ZM_Form_Fields {
      */
     public function get_attributes( $field=null, $current_form=null ){
 
+        $field_id = isset( $field['id'] ) ? $field['id'] : null;
+
         // Other people can override the name, by passing it in with the field
-        $name = '_' . $current_form . '_form[meta]['.$field['id'].']';
+        $name = '_' . $current_form . '_form[meta]['.$field_id.']';
 
         $attr = array(
-            'for' => $current_form . '_' . $field['id'],
+            'for' => $current_form . '_' . $field_id,
             'title' => empty( $field['title'] ) ? null : $field['title'],
             'name' => empty( $field['name'] ) ? $name : $field['name'],
             'placeholder' => empty( $field['placeholder'] ) ? null : $field['placeholder'],
             'row_class' => ( empty( $field['extra_class'] ) ) ? 'zm-form-default-row' : 'zm-form-default-row ' . $field['extra_class'],
             'field_class' => ( empty( $field['field_class'] ) ) ? '' : $field['field_class'],
-            'row_id' => 'zm_form_' . $current_form . '_' . $field['id'] . '_row',
-            'input_id' => $current_form . '_' . $field['id'],
+            'row_id' => 'zm_form_' . $current_form . '_' . $field_id . '_row',
+            'id' => $current_form . '_' . $field_id,
             'req' => empty( $field['req'] ) ? null : $field['req'],
             'desc' => empty( $field['desc'] ) ? null : '<span class="description">' . $field['desc'] . '</span>',
             'echo' => empty( $field['echo'] ) ? false : true,
@@ -933,6 +944,9 @@ Class ZM_Form_Fields {
             case 'textarea':
                 $value = esc_textarea( $field['value'] );
                 break;
+            case 'textarea_emails':
+                $value = $this->sanitize_textarea_emails( $field['value'] );
+                break;
 
             case 'checkbox' :
                 $value = intval( $field['value'] );
@@ -967,6 +981,62 @@ Class ZM_Form_Fields {
         // $value = apply_filters( 'zm_form_sanitize_' . $current_form . '_' . $field['id'], $value );
 
         return $value;
+    }
+
+
+    /**
+     * This takes an array of "stuff" determines in it what are valid
+     * emails and returns all the emails separated by a new line. For
+     * use in a textarae.
+     *
+     * @since 1.1
+     * @param $emails An array of emails to validate
+     * @return Validated emails separated by a new line (for use in a textarea)
+     */
+    public function sanitize_validate_emails( $emails=null ){
+        $valid_emails = array();
+        foreach( $emails as $email ){
+            $sanitized = sanitize_email( $email );
+            if ( $sanitized ){
+                $valid_emails[] = $sanitized;
+            }
+        }
+
+        $valid_emails = implode(PHP_EOL, $valid_emails);
+        return $valid_emails;
+    }
+
+
+    /**
+     * Takes everything that is in our textarea and creates an array
+     * based on new lines and blank spaces.
+     *
+     * @since 1.1
+     * @param $input (string) The input being saved
+     * @return Sanitized email addresses that are separated by a blank line.
+     */
+    public function sanitize_textarea_emails( $input ){
+        // Explode on new lines, remove blank spaces, convert to array, then re-index
+        $input = array_values( array_filter( explode( PHP_EOL, $input ), 'trim' ) );
+        $emails = array();
+
+        // validate each email
+        foreach( $input as $value ){
+
+            // check for ones that are NOT on a new line, but have a space
+            $pos = strpos( $value, ' ' );
+            if ( $pos !== false ){
+                $more_values = explode( ' ', $value );
+                foreach( $more_values as $more_value ){
+                    $emails[] = $more_value;
+                }
+            } else {
+                $emails[] = $value;
+            }
+
+        }
+
+        return $this->sanitize_validate_emails( $emails );
     }
 
 
