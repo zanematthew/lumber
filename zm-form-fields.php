@@ -404,7 +404,7 @@ Class ZM_Form_Fields {
      * @return
      */
     public function do_textarea_emails( $field=array(), $current_form=null ){
-        return $this->do_textarea( $field, $current_form, $value );
+        return $this->do_textarea( $field, $current_form );
     }
 
 
