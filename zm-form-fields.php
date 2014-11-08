@@ -1060,6 +1060,20 @@ Class ZM_Form_Fields {
     }
 
 
+    public function sanitize_default( $value=null ){
+        return esc_attr( $value );
+    }
+
+
+    public function sanitize_multiselect( $value=null ){
+        $tmp = array();
+        foreach( $value as $v ){
+            $tmp[] = $this->sanitize_default( $v );
+        }
+        return $tmp;
+    }
+
+
     /**
      * Prints the meta fields, i.e., form fields
      *
