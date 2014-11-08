@@ -411,6 +411,11 @@ Class ZM_Form_Fields {
     }
 
 
+    public function do_textarea_ip( $field=array(), $current_form=null ){
+        return $this->do_textarea( $field, $current_form );
+    }
+
+
     /**
      *
      * @since 1.0
@@ -599,6 +604,7 @@ Class ZM_Form_Fields {
         extract( $this->get_attributes( $field, $current_form ) );
 
         add_thickbox();
+        wp_enqueue_script( 'zm-settings-thickbox', plugin_dir_url( __FILE__ ) . 'assets/javascripts/scripts.js', array('jquery'), '1.0' );
 
         $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $row .= '<label for="' . $for . '">' . $title . '</label>';
@@ -613,6 +619,83 @@ Class ZM_Form_Fields {
             echo $row;
         else
             return $row;
+    }
+
+
+    // @todo finish this one
+    public function do_touchtime( $field=null, $current_form=null ){
+
+        extract( $this->get_attributes( $field, $current_form ) );
+
+        global $wp_locale;
+
+        $time_adj = current_time('timestamp');
+
+        $jj = gmdate( 'd', $time_adj );
+        $mm = gmdate( 'm', $time_adj );
+        $aa = gmdate( 'Y', $time_adj );
+        $hh = gmdate( 'H', $time_adj );
+        $mn = gmdate( 'i', $time_adj );
+        $ss = gmdate( 's', $time_adj );
+
+        $cur_jj = gmdate( 'd', $time_adj );
+        $cur_mm = gmdate( 'm', $time_adj );
+        $cur_aa = gmdate( 'Y', $time_adj );
+        $cur_hh = gmdate( 'H', $time_adj );
+        $cur_mn = gmdate( 'i', $time_adj );
+
+        $month = '<select name="mm">';
+
+        for ( $i = 1; $i < 13; $i = $i +1 ) {
+
+            $monthnum = zeroise($i, 2);
+            $month .= '<option value="' . $monthnum . '" ' . selected( $monthnum, $mm, false ) . '>';
+
+            /* translators: 1: month number (01, 02, etc.), 2: month abbreviation */
+            $month .= sprintf( __( '%1$s-%2$s' ),
+                $monthnum,
+                $wp_locale->get_month_abbrev( $wp_locale->get_month( $i )
+            ) );
+
+            $month .= "</option>";
+        }
+        $month .= '</select>';
+
+        $day = '<input type="text" name="jj" value="' . $jj . '" size="2" maxlength="2" autocomplete="off" />';
+        $year = '<input type="text" name="aa" value="' . $aa . '" size="4" maxlength="4" autocomplete="off" />';
+        $hour = '<input type="text" name="hh" value="' . $hh . '" size="2" maxlength="2" autocomplete="off" />';
+        $minute = '<input type="text" name="mn" value="' . $mn . '" size="2" maxlength="2" autocomplete="off" />';
+
+        $html = '<div class="timestamp-wrap">';
+
+        /* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
+        $html .= sprintf( __( '%1$s %2$s, %3$s @ %4$s : %5$s' ), $month, $day, $year, $hour, $minute );
+
+        $html .= '</div><input type="hidden" id="ss" name="ss" value="' . $ss . '" />';
+
+
+        $map = array(
+            'mm' => array( $mm, $cur_mm ),
+            'jj' => array( $jj, $cur_jj ),
+            'aa' => array( $aa, $cur_aa ),
+            'hh' => array( $hh, $cur_hh ),
+            'mn' => array( $mn, $cur_mn ),
+        );
+
+        foreach ( $map as $timeunit => $value ) {
+            list( $unit, $curr ) = $value;
+
+            $html .= '<input type="hidden" id="hidden_' . $timeunit . '" name="hidden_' . $timeunit . '" value="' . $unit . '" />';
+            $cur_timeunit = 'cur_' . $timeunit;
+            $html .= '<input type="hidden" id="' . $cur_timeunit . '" name="' . $cur_timeunit . '" value="' . $curr . '" />';
+        }
+        $html .= '<span class="desc">'  . $desc . '</span>';
+
+        if ( $echo ){
+            echo $html;
+        } else {
+            return $html;
+        }
     }
 
 
@@ -830,6 +913,11 @@ Class ZM_Form_Fields {
 
                             case 'email' :
                                 $html .= $this->do_email( $field, $current_form );
+                                break;
+
+                            case 'touchtime' :
+                                echo 'yes';
+                                $html .= $this->do_touchtime( $field, $current_form );
                                 break;
 
                             default:
@@ -1071,6 +1159,82 @@ Class ZM_Form_Fields {
             $tmp[] = $this->sanitize_default( $v );
         }
         return $tmp;
+    }
+
+
+    /**
+     *
+     * @since 1.0.0
+     * @param
+     * @return
+     *//**
+     * Validate the comment from a string. A valid comment starts with "//"
+     *
+     * @param (string)$value The value we want to sanitize
+     * @return The comment if valid, otherwise false
+     */
+    public function sanitize_forward_comments( $value=null ){
+
+        $comment = false;
+        $pos = strpos( trim( $value ), '//' );
+
+        if ( $pos !== false ){
+            $comment = $value;
+        }
+
+        return $comment;
+    }
+
+
+    public function sanitize_textarea_ip( $value=null ){
+
+        // textarea to array
+        $textarea_values = array_values( array_filter( explode( PHP_EOL, $value ), 'trim' ) );
+        $ips = array();
+
+        foreach( $textarea_values as $textarea_value ){
+
+            // Sanitize our IP address
+            $comment = $this->sanitize_forward_comments( $textarea_value );
+            if ( $comment ){
+                $ips[] = $comment;
+            }
+
+            // Sanitize our IP address
+            $valid_ip = $this->sanitize_ip( $textarea_value );
+            if ( $valid_ip ){
+                $ips[] = $valid_ip;
+            }
+        }
+
+
+        $final_ip = null;
+        foreach( $ips as $ip ){
+            $final_ip .= $ip . "\n";
+        }
+
+        $escaped = str_replace("\n", '--FAKE_LINE--', $final_ip );
+        $my_data = sanitize_text_field( $escaped );
+        $final_ip = str_replace( '--FAKE_LINE--', "\n", $my_data);
+
+        return $final_ip;
+    }
+
+
+    /**
+     *
+     * @since 1.0.0
+     * @param
+     * @return
+     *//**
+     * Validate an IP address
+     *
+     * @param $ip An IP address to validate
+     * @return Valid IP
+     */
+    public function sanitize_ip( $ip=null ){
+        $ip = trim( $ip );
+        return ( filter_var( $ip, FILTER_VALIDATE_IP ) ) ? $ip : false;
     }
 
 
