@@ -700,6 +700,7 @@ Class ZM_Form_Fields {
      */
     public function get_attributes( $field=null, $current_form=null ){
 
+        $current_form = empty( $field['namespace'] ) ? $current_form : $field['namespace'];
         $field_id = isset( $field['id'] ) ? $field['id'] : null;
 
         // Other people can override the name, by passing it in with the field
