@@ -1104,27 +1104,36 @@ Class ZM_Form_Fields {
      * @return Sanitized email addresses that are separated by a blank line.
      */
     public function sanitize_textarea_emails( $input ){
-        // Explode on new lines, remove blank spaces, convert to array, then re-index
-        $input = array_values( array_filter( explode( PHP_EOL, $input ), 'trim' ) );
-        $emails = array();
 
-        // validate each email
+        // Explode on new lines, remove blank spaces, convert to array, then re-index
+        $input = array_values( array_filter( explode( PHP_EOL, trim( $input ) ), 'trim' ) );
+        $array_emails = array();
+
+        // build an array of emails
         foreach( $input as $value ){
 
-            // check for ones that are NOT on a new line, but have a space
-            $pos = strpos( $value, ' ' );
-            if ( $pos !== false ){
-                $more_values = explode( ' ', $value );
-                foreach( $more_values as $more_value ){
-                    $emails[] = $more_value;
-                }
+            if ( $this->sanitize_forward_comments( $value ) ){
+                $array_emails[] = $value;
             } else {
-                $emails[] = $value;
-            }
 
+                // check for ones that are NOT on a new line, but have a space
+                $pos = strpos( $value, ' ' );
+                if ( $pos !== false ){
+                    $more_values = explode( ' ', $value );
+                    foreach( $more_values as $more_value ){
+                        if ( sanitize_email( $more_value ) )
+                            $array_emails[] = $more_value;
+                    }
+                } else {
+                    if ( sanitize_email( $value ) )
+                        $array_emails[] = $value;
+                }
+            }
         }
 
-        return $this->sanitize_validate_emails( $emails );
+        $string_emails = implode(PHP_EOL, $array_emails );
+
+        return $string_emails;
     }
 
 
@@ -1194,7 +1203,7 @@ Class ZM_Form_Fields {
 
         foreach( $textarea_values as $textarea_value ){
 
-            // Sanitize our IP address
+            // Allow forward comments
             $comment = $this->sanitize_forward_comments( $textarea_value );
             if ( $comment ){
                 $ips[] = $comment;
