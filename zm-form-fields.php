@@ -429,7 +429,9 @@ Class ZM_Form_Fields {
         extract( $this->get_attributes( $field, $current_form ) );
 
         $html = '<p class="'.$row_class.'"><input type="checkbox" name="'.$name.'" id="' . $id .'" value="1" ' . checked( 1, $value, false ) . '/>';
-        $html .= '<label for="' . $for . '_checkbox">' . $title . '</label></p>';
+        $html .= '<label for="' . $for . '_checkbox">' . $title . '</label>';
+        $html .= $desc;
+        $html .= '</p>';
 
         if ( $echo )
             echo $html;
@@ -514,6 +516,7 @@ Class ZM_Form_Fields {
         $row .= '<br /><a href="#" class="zm-form-fields-upload-remove-handle" ' . $style . '>' . __('Remove', 'zm_alr_pro_settings') . '</a>';
         $row .= '<input type="hidden" class="zm-form-fields-upload-attachment-id" id="'.$id.'" name="' . $name . '" value="' . $value . '"/>';
         $row .= '</span>';
+        $row .= '<br />' . $desc;
 
         $row .= '</p>';
 
@@ -629,26 +632,27 @@ Class ZM_Form_Fields {
 
         global $wp_locale;
 
-        $time_adj = current_time('timestamp');
+        if ( empty( $value ) ){
+            $time_adj = current_time('timestamp');
 
-        $jj = gmdate( 'd', $time_adj );
-        $mm = gmdate( 'm', $time_adj );
-        $aa = gmdate( 'Y', $time_adj );
-        $hh = gmdate( 'H', $time_adj );
-        $mn = gmdate( 'i', $time_adj );
-        $ss = gmdate( 's', $time_adj );
+            $jj = gmdate( 'd', $time_adj );
+            $mm = gmdate( 'm', $time_adj );
+            $aa = gmdate( 'Y', $time_adj );
+            $hh = gmdate( 'H', $time_adj );
+            $mn = gmdate( 'i', $time_adj );
+        } else {
+            $jj = $value['day'];
+            $mm = $value['month'];
+            $aa = $value['year'];
+            $hh = $value['hour'];
+            $mn = $value['minute'];
+        }
 
-        $cur_jj = gmdate( 'd', $time_adj );
-        $cur_mm = gmdate( 'm', $time_adj );
-        $cur_aa = gmdate( 'Y', $time_adj );
-        $cur_hh = gmdate( 'H', $time_adj );
-        $cur_mn = gmdate( 'i', $time_adj );
-
-        $month = '<select name="mm">';
+        $month = '<select name="' . $name . '[month]">';
 
         for ( $i = 1; $i < 13; $i = $i +1 ) {
 
-            $monthnum = zeroise($i, 2);
+            $monthnum = zeroise( $i, 2 );
             $month .= '<option value="' . $monthnum . '" ' . selected( $monthnum, $mm, false ) . '>';
 
             /* translators: 1: month number (01, 02, etc.), 2: month abbreviation */
@@ -661,35 +665,18 @@ Class ZM_Form_Fields {
         }
         $month .= '</select>';
 
-        $day = '<input type="text" name="jj" value="' . $jj . '" size="2" maxlength="2" autocomplete="off" />';
-        $year = '<input type="text" name="aa" value="' . $aa . '" size="4" maxlength="4" autocomplete="off" />';
-        $hour = '<input type="text" name="hh" value="' . $hh . '" size="2" maxlength="2" autocomplete="off" />';
-        $minute = '<input type="text" name="mn" value="' . $mn . '" size="2" maxlength="2" autocomplete="off" />';
+        $day = '<input type="text" name="' . $name . '[day]" value="' . $jj . '" size="2" maxlength="2" autocomplete="off" />';
+        $year = '<input type="text" name="' . $name . '[year]" value="' . $aa . '" size="4" maxlength="4" autocomplete="off" />';
+        $hour = '<input type="text" name="' . $name . '[hour]" value="' . $hh . '" size="2" maxlength="2" autocomplete="off" />';
+        $minute = '<input type="text" name="' . $name . '[minute]" value="' . $mn . '" size="2" maxlength="2" autocomplete="off" />';
 
-        $html = '<div class="timestamp-wrap">';
 
+        // Final HTML
+        $html  = '<p class="' . $row_class . ' zm-form-touch-time" id="' . $row_id . '">';
         /* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
         $html .= sprintf( __( '%1$s %2$s, %3$s @ %4$s : %5$s' ), $month, $day, $year, $hour, $minute );
-
-        $html .= '</div><input type="hidden" id="ss" name="ss" value="' . $ss . '" />';
-
-
-        $map = array(
-            'mm' => array( $mm, $cur_mm ),
-            'jj' => array( $jj, $cur_jj ),
-            'aa' => array( $aa, $cur_aa ),
-            'hh' => array( $hh, $cur_hh ),
-            'mn' => array( $mn, $cur_mn ),
-        );
-
-        foreach ( $map as $timeunit => $value ) {
-            list( $unit, $curr ) = $value;
-
-            $html .= '<input type="hidden" id="hidden_' . $timeunit . '" name="hidden_' . $timeunit . '" value="' . $unit . '" />';
-            $cur_timeunit = 'cur_' . $timeunit;
-            $html .= '<input type="hidden" id="' . $cur_timeunit . '" name="' . $cur_timeunit . '" value="' . $curr . '" />';
-        }
         $html .= '<span class="desc">'  . $desc . '</span>';
+        $html .= '</p>';
 
         if ( $echo ){
             echo $html;
@@ -916,7 +903,6 @@ Class ZM_Form_Fields {
                                 break;
 
                             case 'touchtime' :
-                                echo 'yes';
                                 $html .= $this->do_touchtime( $field, $current_form );
                                 break;
 
@@ -1055,7 +1041,6 @@ Class ZM_Form_Fields {
             // case 'number' :
                 // $value = $this->sanitize_number( $field );
                 // break;
-
             case 'text' :
             case 'us_state' :
             case 'select' :
@@ -1244,6 +1229,11 @@ Class ZM_Form_Fields {
     public function sanitize_ip( $ip=null ){
         $ip = trim( $ip );
         return ( filter_var( $ip, FILTER_VALIDATE_IP ) ) ? $ip : false;
+    }
+
+
+    public function sanitize_touchtime( $value=null ){
+        return $value;
     }
 
 
