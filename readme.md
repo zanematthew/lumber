@@ -52,3 +52,5 @@ $field = array(
     'cols'          => empty( $field['cols'] ) ? 8 : $field['cols'],
     );
 ```
+
+Note if using this in a theme use this filter to change the lib url: `zm_form_fields_upload_js`

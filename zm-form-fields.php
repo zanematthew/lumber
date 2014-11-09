@@ -490,7 +490,7 @@ Class ZM_Form_Fields {
 
         wp_enqueue_media();
         wp_enqueue_script( 'custom-header' );
-        wp_enqueue_script( 'zm-form-fields-upload', get_stylesheet_directory_uri() .'/lib/zm-forms/assets/javascripts/admin-upload.js', array('jquery', 'custom-header') );
+        wp_enqueue_script( 'zm-form-fields-upload', apply_filters( 'zm_form_fields_upload_js', plugin_dir_url( __FILE__ ) . 'assets/javascripts/scripts.js' ), array('jquery', 'custom-header') );
 
         extract( $this->get_attributes( $field, $current_form ) );
 
