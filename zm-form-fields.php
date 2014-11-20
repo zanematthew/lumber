@@ -9,7 +9,7 @@
 //      sanitize_{$something}
 
 if ( ! class_exists( 'ZM_Form_Fields' ) ) :
-Class ZM_Form_Fields {
+Abstract Class ZM_Form_Fields {
 
     /**
      *
@@ -489,8 +489,10 @@ Class ZM_Form_Fields {
     public function do_upload( $field=array(), $current_form=null ){
 
         wp_enqueue_media();
-        wp_enqueue_script( 'custom-header' );
-        wp_enqueue_script( 'zm-form-fields-upload', apply_filters( 'zm_form_fields_upload_js', plugin_dir_url( __FILE__ ) . 'assets/javascripts/scripts.js' ), array('jquery', 'custom-header') );
+        // wp_enqueue_script( 'custom-header' );
+
+        wp_enqueue_script( 'zm-form-fields-upload',
+            $this->get_base_dir_url() . 'assets/javascripts/scripts.js', array('jquery') );
 
         extract( $this->get_attributes( $field, $current_form ) );
 
@@ -607,7 +609,6 @@ Class ZM_Form_Fields {
         extract( $this->get_attributes( $field, $current_form ) );
 
         add_thickbox();
-        wp_enqueue_script( 'zm-settings-thickbox', plugin_dir_url( __FILE__ ) . 'assets/javascripts/scripts.js', array('jquery'), '1.0' );
 
         $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $row .= '<label for="' . $for . '">' . $title . '</label>';
@@ -1255,5 +1256,10 @@ Class ZM_Form_Fields {
         </style>
         <?php echo $this->get_meta_fields_html( $post->ID, $post->post_type ); ?>
     <?php }
+
+
+    public function get_base_dir_url(){
+        return apply_filters( 'zm_form_fields_dir_url', plugin_dir_url( __FILE__ ) );
+    }
 }
 endif;
