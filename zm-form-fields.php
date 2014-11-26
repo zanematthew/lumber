@@ -457,13 +457,28 @@ Abstract Class ZM_Form_Fields {
             $key = sanitize_title( $k );
             $id = $id . '_' . $key;
 
-            if ( ! empty( $field['value'] ) && in_array( $key, $field['value'] ) ){
-                $checked = "checked=check";
+            // Multi-dimensional array support or
+            // Associative array support
+            if ( is_array( $v ) ){
+                $title = $v['title'];
+
+                if ( ! empty( $field['value'] ) && array_key_exists( $v['id'], $field['value'] ) ){
+                    $checked = "checked=check";
+                } else {
+                    $checked = null;
+                }
+
             } else {
-                $checked = null;
+                $title = $v;
+                if ( ! empty( $field['value'] ) && in_array( $key, $field['value'] ) ){
+                    $checked = "checked=check";
+                } else {
+                    $checked = null;
+                }
             }
 
-            $options .= '<input type="checkbox" class="" name="'.$name.'[]" id="' . $id . '" value="' . $key . '" ' . $checked . ' /><label for="' . $id . '">' . $v . $required_html . '</label><br />';
+            $options .= '<input type="checkbox" class="" name="'.$name.'[]" id="' . $id . '" value="' . $key . '" ' . $checked . ' />';
+            $options .= '<label for="' . $id . '">' . $title . $required_html . '</label><br />';
         }
 
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '">';
