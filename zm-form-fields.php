@@ -440,6 +440,7 @@ Abstract Class ZM_Form_Fields {
     }
 
 
+    // @todo support for std value
     public function do_checkboxes( $field=array(), $current_form=null ){
 
         extract( $this->get_attributes( $field, $current_form ) );
@@ -722,6 +723,15 @@ Abstract Class ZM_Form_Fields {
         // Other people can override the name, by passing it in with the field
         $name = '_' . $current_form . '_form[meta]['.$field_id.']';
 
+
+        if ( isset( $field['value'] ) ){
+            $value = $field['value'];
+        } else {
+            $value = empty( $field['std'] ) ? null : $field['std'];
+        }
+
+        $std = isset( $field['std'] ) ? $field['std'] : false;
+
         $attr = array(
             'for' => $current_form . '_' . $field_id,
             'title' => empty( $field['title'] ) ? null : $field['title'],
@@ -734,9 +744,9 @@ Abstract Class ZM_Form_Fields {
             'req' => empty( $field['req'] ) ? null : $field['req'],
             'desc' => empty( $field['desc'] ) ? null : '<span class="description">' . $field['desc'] . '</span>',
             'echo' => empty( $field['echo'] ) ? false : true,
-            'value' => empty( $field['value'] ) ? null : $field['value'],
-            'style' => empty( $field['style'] ) ? null : $field['style'],
-            'std' => empty( $field['std'] ) ? null : $field['std'],
+            'value' => $value,
+            'style' => empty( $field['style'] ) ? false : $field['style'],
+            'std' => $std,
             'rows' => empty( $field['rows'] ) ? 4 : $field['rows'],
             'cols' => empty( $field['cols'] ) ? 8 : $field['cols'],
             );
@@ -1174,11 +1184,6 @@ Abstract Class ZM_Form_Fields {
 
 
     /**
-     *
-     * @since 1.0.0
-     * @param
-     * @return
-     *//**
      * Validate the comment from a string. A valid comment starts with "//"
      *
      * @param (string)$value The value we want to sanitize
