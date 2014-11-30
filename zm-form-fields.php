@@ -387,7 +387,7 @@ Abstract Class ZM_Form_Fields {
         extract( $this->get_attributes( $field, $current_form ) );
 
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . '</label>';
-        $html .= '<textarea class="large-text" name="' . $name . '" placeholder="' . $placeholder . '">' . wp_kses( $value, '' ) . '</textarea>';
+        $html .= '<textarea class="large-text" name="' . $name . '" placeholder="' . $placeholder . '" rows="10">' . wp_kses( $value, '' ) . '</textarea>';
         $html .= $desc;
         $html .= '</p>';
 
