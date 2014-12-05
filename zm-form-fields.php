@@ -673,7 +673,7 @@ Abstract Class ZM_Form_Fields {
             $month .= '<option value="' . $monthnum . '" ' . selected( $monthnum, $mm, false ) . '>';
 
             /* translators: 1: month number (01, 02, etc.), 2: month abbreviation */
-            $month .= sprintf( __( '%1$s-%2$s' ),
+            $month .= sprintf( '%1$s-%2$s',
                 $monthnum,
                 $wp_locale->get_month_abbrev( $wp_locale->get_month( $i )
             ) );
@@ -691,7 +691,7 @@ Abstract Class ZM_Form_Fields {
         // Final HTML
         $html  = '<p class="' . $row_class . ' zm-form-touch-time" id="' . $row_id . '">';
         /* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
-        $html .= sprintf( __( '%1$s %2$s, %3$s @ %4$s : %5$s' ), $month, $day, $year, $hour, $minute );
+        $html .= sprintf( '%1$s %2$s, %3$s @ %4$s : %5$s', $month, $day, $year, $hour, $minute );
         $html .= '<span class="desc">'  . $desc . '</span>';
         $html .= '</p>';
 
