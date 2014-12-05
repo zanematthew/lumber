@@ -240,9 +240,11 @@ Abstract Class ZM_Form_Fields {
             }
 
             $options = '<option value="">-- Select a Value --</option>';
+            $selected = '';
             foreach( $field['options'] as $k => $v ) {
-                if ( ! empty( $value ) && in_array( $k, $value ) ){
-                    $selected = 'selected=selected';
+
+                if ( is_array( $value ) ){
+                    $selected = ( ! empty( $value ) && in_array( $k, $value ) ) ? 'selected=selected' : null;
                 } else {
                     $selected = selected( $k, $value, false );
                 }
