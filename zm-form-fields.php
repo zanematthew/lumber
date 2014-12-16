@@ -993,6 +993,7 @@ Abstract Class ZM_Form_Fields {
     public function save_meta( $post_id=null, $meta=null, $current_form=null ){
         $formatted_meta = $this->get_formatted_meta( $meta, $current_form );
         $multi_value = null;
+        $sanitized = null;
 
         foreach( $formatted_meta as $k => $v ){
 
@@ -1009,7 +1010,7 @@ Abstract Class ZM_Form_Fields {
                     $type = empty( $v['type'] ) ? 'default' : $v['type'];
 
                     // sanitize by type
-                    $value = $this->sanitize( $type, $v, $current_value );
+                    $value = $this->sanitize( $type, $v, $current_form );
 
                     // Build our array of values
                     $sanitized[ $k ] = $value;
