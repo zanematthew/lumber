@@ -129,10 +129,12 @@ Abstract Class ZM_Form_Fields {
         extract( $this->get_attributes( $field, $current_form ) );
 
         if ( empty( $field['id'] ) ){
-            $id = sanitize_title( $field['id'] );
+            $id = null;
         } else {
             $id = $field['id'];
         }
+
+        $id = sanitize_title( $id );
 
         $html = '<div class="' . $row_class . ' zm-form-open-fieldset" id="zm_form_open_fieldset_' . $field['id'] . '">';
         $html .= '<fieldset id="zm_form_' . $current_form . '_' . $id . '_fieldset"><legend>' . $title . '</legend>';
@@ -977,9 +979,11 @@ Abstract Class ZM_Form_Fields {
         $current_form_fields = $fields[ $current_form ];
         foreach( $current_form_fields as $field ){
             foreach( $meta as $k => $v ){
-                if ( $field['id'] == $k ){
-                    $formatted[ $k ] = $field;
-                    $formatted[ $k ]['value'] = $v;
+                if ( ! empty( $field['id'] ) ) {
+                    if ( $field['id'] == $k ){
+                        $formatted[ $k ] = $field;
+                        $formatted[ $k ]['value'] = $v;
+                    }
                 }
             }
         }
