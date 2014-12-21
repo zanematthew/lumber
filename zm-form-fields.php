@@ -858,7 +858,16 @@ Abstract Class ZM_Form_Fields {
                 } else {
                     foreach( $fields as $field ) :
 
-                        $field['value'] = empty( $meta[ $field['id'] ] ) ? null :  $meta[ $field['id'] ];
+                        // Set default value
+                        //
+                        // If the ID is empty or the meta field is empty
+                        // we set the default value to null
+                        if ( empty( $field['id'] ) || empty( $meta[ $field['id'] ] ) ){
+                            $field['value'] = null;
+                        } else {
+                            $field['value'] = $meta[ $field['id'] ];
+                        }
+
 
                         switch( $field['type'] ) {
 
@@ -951,7 +960,7 @@ Abstract Class ZM_Form_Fields {
 
     /**
      * Merge the meta fields with that of the current form,
-     * this allows us to get add additional data to the fields.
+     * this allows us to add additional data to the fields.
      * Essentially we are going from this:
      * array( 'first_name' ); to
      * array( 'first_name' => array( 'type' => 'text', 'id' => etc. ) )
