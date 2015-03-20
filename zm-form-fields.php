@@ -116,6 +116,26 @@ Abstract Class ZM_Form_Fields {
     }
 
 
+    public function do_text_disabled( $field=null, $current_form=null ){
+
+        extract( $this->get_attributes( $field, $current_form ) );
+
+        $required = ( $req == true ) ? ' required ' : null;
+        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+
+        $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
+        $row .= '<label for="' . $for . '">' . $title . $required_html . '</label>';
+        $row .= '<input type="text" disabled id="' . $id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" style="opacity:0.50;" />';
+        $row .= $desc;
+        $row .= '</p>';
+
+        if ( $echo )
+            echo $row;
+        else
+            return $row;
+    }
+
+
     /**
      *
      * @since 1.0
