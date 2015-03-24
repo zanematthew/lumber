@@ -42,9 +42,9 @@ jQuery( document ).ready(function( $ ){
             title: zm_alr_pro_upload.title,
 
             // Media type allowed.
-            library: {
-                type: 'image'
-            },
+            // library: {
+            //     type: 'image'
+            // },
 
             // Custom "insert" button.
             button: {
@@ -63,11 +63,14 @@ jQuery( document ).ready(function( $ ){
 
                 $( '.zm-form-fields-upload-attachment-id', $parent ).val( media_attachment.id );
 
-                console.log( media_attachment );
-                console.log( '<img src="'+media_attachment.sizes.thumbnail.url+'" />' );
+                if ( ! $.inArray( media_attachment.mime, ["image/png"], ["image/jpg"], ["image/jpeg"] ) ){
+                    thumb = media_attachment.sizes.thumbnail.url;
+                } else {
+                    thumb = media_attachment.icon;
+                }
 
                 $( '.zm-form-fields-upload-image-container', $parent ).empty();
-                $( '.zm-form-fields-upload-image-container', $parent ).append('<img src="'+media_attachment.sizes.thumbnail.url+'" style="border:1px solid #ddd;"/>');
+                $( '.zm-form-fields-upload-image-container', $parent ).append('<img src="'+thumb+'" style="border:1px solid #ddd;"/>');
                 $( '.zm-form-fields-upload-image-container', $parent ).show();
 
                 $( '.zm-form-fields-upload-remove-handle' ).show();
