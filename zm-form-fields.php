@@ -435,7 +435,7 @@ Abstract Class ZM_Form_Fields {
     }
 
 
-    public function doIp( $field=array(), $current_form=null ){
+    public function doIps( $field=array(), $current_form=null ){
         return $this->doTextarea( $field, $current_form );
     }
 
@@ -453,8 +453,7 @@ Abstract Class ZM_Form_Fields {
         extract( $this->getAttributes( $field, $current_form ) );
 
         $html = '<p class="'.$row_class.'"><input type="checkbox" name="'.$name.'" id="' . $id .'" value="1" ' . checked( 1, $value, false ) . '/>';
-        $html .= '<label for="' . $for . '_checkbox">' . $title . '</label>';
-        $html .= $desc;
+        $html .= '<label for="' . $id .'">' . $desc . '</label>';
         $html .= '</p>';
 
         if ( $echo )
@@ -540,7 +539,7 @@ Abstract Class ZM_Form_Fields {
 
         if ( $value ){
             $style = null;
-            $image = '<img src="' . wp_getAttachment_thumb_url( $value ) . '" style="border: 1px solid #ddd;" />';
+            $image = '<img src="' . wp_get_attachment_thumb_url( $value ) . '" style="border: 1px solid #ddd;" />';
         } else {
             $style = 'style="display:none;"';
             $image = null;
@@ -1238,7 +1237,7 @@ Abstract Class ZM_Form_Fields {
     }
 
 
-    public function sanitizeTextareaIp( $value=null ){
+    public function sanitizeIps( $value=null ){
 
         // textarea to array
         $textarea_values = array_values( array_filter( explode( PHP_EOL, $value ), 'trim' ) );
@@ -1248,17 +1247,18 @@ Abstract Class ZM_Form_Fields {
 
             // Allow forward comments
             $comment = $this->sanitizeForwardComments( $textarea_value );
+
             if ( $comment ){
                 $ips[] = $comment;
             }
 
             // Sanitize our IP address
             $valid_ip = $this->sanitizeIp( $textarea_value );
+
             if ( $valid_ip ){
                 $ips[] = $valid_ip;
             }
         }
-
 
         $final_ip = null;
         foreach( $ips as $ip ){
