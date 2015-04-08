@@ -625,7 +625,7 @@ Abstract Class ZM_Form_Fields {
 
         $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
-        $row .= $std;
+        $row .= $attr['std'];
         $row .= '</p>';
 
         if ( $attr['echo'] )
