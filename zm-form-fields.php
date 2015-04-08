@@ -21,9 +21,9 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_text( $field=null, $current_form=null ){
+    public function doText( $field=null, $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $required = ( $req == true ) ? ' required ' : null;
         $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
@@ -41,9 +41,9 @@ Abstract Class ZM_Form_Fields {
     }
 
 
-    public function do_email( $field=null, $current_form=null ){
+    public function doEmail( $field=null, $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $required = ( $req == true ) ? ' required ' : null;
         $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
@@ -70,9 +70,9 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_hidden( $field=null, $current_form=null ){
+    public function doHidden( $field=null, $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $row .= '<label for="' . $for . '">' . $title . '</label>';
@@ -96,9 +96,9 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_url( $field=null, $current_form=null ){
+    public function doUrl( $field=null, $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $required = ( $req == true ) ? ' required ' : null;
         $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
@@ -116,9 +116,9 @@ Abstract Class ZM_Form_Fields {
     }
 
 
-    public function do_text_disabled( $field=null, $current_form=null ){
+    public function doTextDisabled( $field=null, $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $required = ( $req == true ) ? ' required ' : null;
         $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
@@ -144,9 +144,9 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_open_fieldset( $field=array(), $current_form=null ){
+    public function doOpenFieldset( $field=array(), $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         if ( empty( $field['id'] ) ){
             $id = null;
@@ -169,7 +169,7 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_end_fieldset(){
+    public function doEndFieldset(){
         return '</fieldset></div>';
     }
 
@@ -181,9 +181,9 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_open_section( $field=array() ){
+    public function doOpenSection( $field=array() ){
 
-        extract( $this->get_attributes( $field ) );
+        extract( $this->getAttributes( $field ) );
 
         $html = '<div class="' . $row_class . ' open-section" id="zm_form_' . $field['id'] . '_section">';
         return $html;
@@ -197,7 +197,7 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_end_section(){
+    public function doEndSection(){
         return '</div>';
     }
 
@@ -206,13 +206,13 @@ Abstract Class ZM_Form_Fields {
      *
      * @since 1.0
      *
-     * do_select( $field=array(), $current_form=null, $value=null
+     * doSelect( $field=array(), $current_form=null, $value=null
      *
      * @return
      */
-    public function do_select( $field=array(), $current_form=null ){
+    public function doSelect( $field=array(), $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         if ( empty( $field['options'] ) )
             return;
@@ -246,12 +246,12 @@ Abstract Class ZM_Form_Fields {
      *
      * @since 1.0
      *
-     * do_multiselect( $field=array(), $current_form=null, $value=null
+     * doMultiselect( $field=array(), $current_form=null, $value=null
      *
      * @return
      */
-    public function do_multiselect( $field=array(), $current_form=null ){
-        extract( $this->get_attributes( $field, $current_form ) );
+    public function doMultiselect( $field=array(), $current_form=null ){
+        extract( $this->getAttributes( $field, $current_form ) );
 
         if ( empty( $field['options'] ) ){
             $html = 'No options';
@@ -292,11 +292,11 @@ Abstract Class ZM_Form_Fields {
      *
      * @since 1.0
      *
-     * do_us_state_select( $field=array(), $current_form=null, $value=null
+     * doUsStateSelect( $field=array(), $current_form=null, $value=null
      *
      * @return
      */
-    public function do_us_state_select( $field=array(), $current_form=null ){
+    public function doUsStateSelect( $field=array(), $current_form=null ){
         $states = array(
             'AL' => 'Alabama',
             'AK' => 'Alaska',
@@ -351,7 +351,7 @@ Abstract Class ZM_Form_Fields {
             'WY' => 'Wyoming'
             );
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $options = '<option value="">-- Select a Value --</option>';
         foreach( $states as $k => $v ) {
@@ -378,13 +378,13 @@ Abstract Class ZM_Form_Fields {
      *
      * @since 1.0
      *
-     * do_textarea( $field=array(), $current_form=null, $value=null
+     * doTextarea( $field=array(), $current_form=null, $value=null
      *
      * @return
      */
-    public function do_textarea( $field=array(), $current_form=null ){
+    public function doTextarea( $field=array(), $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . '</label>';
         $html .= '<textarea id="' . $id . '" name="' . $name . '" rows="'.$rows.'" cols="'.$cols.'" class="large-text '.$field_class.'" placeholder="' . $placeholder . '">' . esc_textarea( $value ) . '</textarea>';
@@ -402,13 +402,13 @@ Abstract Class ZM_Form_Fields {
      *
      * @since 1.0
      *
-     * do_css_textarea( $field=array(), $current_form=null, $value=null
+     * doCss( $field=array(), $current_form=null, $value=null
      *
      * @return
      */
-    public function do_css_textarea( $field=array(), $current_form=null ){
+    public function doCss( $field=array(), $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . '</label>';
         $html .= '<textarea class="large-text" name="' . $name . '" placeholder="' . $placeholder . '" rows="10">' . wp_kses( $value, '' ) . '</textarea>';
@@ -426,17 +426,17 @@ Abstract Class ZM_Form_Fields {
      *
      * @since 1.0
      *
-     * do_textarea_emails( $field=array(), $current_form=null, $value=null
+     * doEmails( $field=array(), $current_form=null, $value=null
      *
      * @return
      */
-    public function do_textarea_emails( $field=array(), $current_form=null ){
-        return $this->do_textarea( $field, $current_form );
+    public function doEmails( $field=array(), $current_form=null ){
+        return $this->doTextarea( $field, $current_form );
     }
 
 
-    public function do_textarea_ip( $field=array(), $current_form=null ){
-        return $this->do_textarea( $field, $current_form );
+    public function doIp( $field=array(), $current_form=null ){
+        return $this->doTextarea( $field, $current_form );
     }
 
 
@@ -444,13 +444,13 @@ Abstract Class ZM_Form_Fields {
      *
      * @since 1.0
      *
-     * do_checkbox( $field=array(), $current_form=null, $value=null
+     * doCheckbox( $field=array(), $current_form=null, $value=null
      *
      * @return
      */
-    public function do_checkbox( $field=array(), $current_form=null ){
+    public function doCheckbox( $field=array(), $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $html = '<p class="'.$row_class.'"><input type="checkbox" name="'.$name.'" id="' . $id .'" value="1" ' . checked( 1, $value, false ) . '/>';
         $html .= '<label for="' . $for . '_checkbox">' . $title . '</label>';
@@ -465,9 +465,9 @@ Abstract Class ZM_Form_Fields {
 
 
     // @todo support for std value
-    public function do_checkboxes( $field=array(), $current_form=null ){
+    public function doCheckboxes( $field=array(), $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         if ( empty( $field['options'] ) )
             return;
@@ -522,25 +522,25 @@ Abstract Class ZM_Form_Fields {
      *
      * @since 1.0
      *
-     * do_upload( $field=array(), $current_form=null, $value=null
+     * doUpload( $field=array(), $current_form=null, $value=null
      *
      * @return
      */
-    public function do_upload( $field=array(), $current_form=null ){
+    public function doUpload( $field=array(), $current_form=null ){
 
         wp_enqueue_media();
         // wp_enqueue_script( 'custom-header' );
 
         wp_enqueue_script( 'zm-form-fields-upload',
-            $this->get_base_dir_url() . 'assets/javascripts/scripts.js', array('jquery') );
+            $this->getBaseDirUrl() . 'assets/javascripts/scripts.js', array('jquery') );
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $value = empty( $current_value ) ? intval( $value ) : intval( $current_value );
 
         if ( $value ){
             $style = null;
-            $image = '<img src="' . wp_get_attachment_thumb_url( $value ) . '" style="border: 1px solid #ddd;" />';
+            $image = '<img src="' . wp_getAttachment_thumb_url( $value ) . '" style="border: 1px solid #ddd;" />';
         } else {
             $style = 'style="display:none;"';
             $image = null;
@@ -578,9 +578,9 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function do_radio( $field=null, $current_form=null ){
+    public function doRadio( $field=null, $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         if ( empty( $field['options'] ) )
             return;
@@ -614,13 +614,13 @@ Abstract Class ZM_Form_Fields {
      *
      * @since 1.0
      *
-     * do_html( $field=null, $current_form=null
+     * doHtml( $field=null, $current_form=null
      *
      * @return
      */
-    public function do_html( $field=null, $current_form=null ){
+    public function doHtml( $field=null, $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
         $row .= '<label for="' . $for . '">' . $title . '</label>';
@@ -638,15 +638,15 @@ Abstract Class ZM_Form_Fields {
      *
      * @since 1.0
      *
-     * do_thickbox_url( $field=null, $current_form=null, $value=null
+     * doThickbox( $field=null, $current_form=null, $value=null
      * @uses add_thickbox() http://codex.wordpress.org/ThickBox
      * @uses add_query_arg() http://codex.wordpress.org/Function_Reference/add_query_arg
      * @uses esc_url() http://codex.wordpress.org/Function_Reference/esc_url
      * @return
      */
-    public function do_thickbox_url( $field=null, $current_form=null ){
+    public function doThickbox( $field=null, $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         add_thickbox();
 
@@ -667,9 +667,9 @@ Abstract Class ZM_Form_Fields {
 
 
     // @todo finish this one
-    public function do_touchtime( $field=null, $current_form=null ){
+    public function doTouchtime( $field=null, $current_form=null ){
 
-        extract( $this->get_attributes( $field, $current_form ) );
+        extract( $this->getAttributes( $field, $current_form ) );
 
         global $wp_locale;
 
@@ -739,7 +739,7 @@ Abstract Class ZM_Form_Fields {
      *
      * @return  HTML attributes for a given form field.
      */
-    public function get_attributes( $field=null, $current_form=null ){
+    public function getAttributes( $field=null, $current_form=null ){
 
         $current_form = empty( $field['namespace'] ) ? $current_form : $field['namespace'];
         $field_id = isset( $field['id'] ) ? $field['id'] : null;
@@ -787,7 +787,7 @@ Abstract Class ZM_Form_Fields {
      *
      * @return An array of all available fields.
      */
-    public function get_fields(){
+    public function getFields(){
         // Our default fields
         $default_fields = array(
             array(
@@ -810,7 +810,7 @@ Abstract Class ZM_Form_Fields {
                 )
         );
 
-        $forms = $this->get_forms();
+        $forms = $this->getForms();
 
         foreach( $forms as $form ){
             $fields[ $form['post_type'] ] = apply_filters( 'zm_form_fields_' . $form['post_type'], $default_fields );
@@ -827,7 +827,7 @@ Abstract Class ZM_Form_Fields {
      *
      * @return  An array of all available forms
      */
-    public function get_forms(){
+    public function getForms(){
         return apply_filters( 'zm_form_add_new', array() );
     }
 
@@ -842,7 +842,7 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function get_values( $post_id=null, $key=null ){
+    public function getValues( $post_id=null, $key=null ){
         $post_meta = get_post_meta( $post_id, '_zm_form_meta', true );
         if ( empty( $key ) ){
             $meta = apply_filters( 'zm_forms_meta_values', $post_meta, $post_id );
@@ -866,11 +866,11 @@ Abstract Class ZM_Form_Fields {
      *
      * @return  The HTML form fields for the given form.
      */
-    public function get_meta_fields_html( $post_id=null, $current_form=null ){
+    public function getMetaFieldsHtml( $post_id=null, $current_form=null ){
 
-        $meta = $this->get_values( $post_id );
+        $meta = $this->getValues( $post_id );
 
-        $my_fields = $this->get_fields();
+        $my_fields = $this->getFields();
         $html = null;
 
         foreach( $my_fields as $form => $fields ){
@@ -894,80 +894,80 @@ Abstract Class ZM_Form_Fields {
                         switch( $field['type'] ) {
 
                             case 'select' :
-                                $html .= $this->do_select( $field, $current_form );
+                                $html .= $this->doSelect( $field, $current_form );
                                 break;
 
                             case 'multiselect' :
-                                $html .= $this->do_multiselect( $field, $current_form );
+                                $html .= $this->doMultiselect( $field, $current_form );
                                 break;
 
                             case 'us_state' :
-                                $html .= $this->do_us_state_select( $field, $current_form );
+                                $html .= $this->doUsStateSelect( $field, $current_form );
                                 break;
 
                             case 'textarea' :
                             case 'textarea_email_template' :
-                                $html .= $this->do_textarea( $field, $current_form );
+                                $html .= $this->doTextarea( $field, $current_form );
                                 break;
 
                             case 'textarea_emails' :
-                                $html .= $this->do_textarea_emails( $field, $current_form );
+                                $html .= $this->doEmails( $field, $current_form );
                                 break;
 
                             case 'open_fieldset' :
-                                $html .= $this->do_open_fieldset( $field, $current_form );
+                                $html .= $this->doOpenFieldset( $field, $current_form );
                                 break;
 
                             case 'end_fieldset' :
-                                $html .= $this->do_end_fieldset();
+                                $html .= $this->doEndFieldset();
                                 break;
 
                             case 'open_section' :
-                                $html .= $this->do_open_section( $field, $current_form );
+                                $html .= $this->doOpenSection( $field, $current_form );
                                 break;
 
                             case 'end_section' :
-                                $html .= $this->do_end_section();
+                                $html .= $this->doEndSection();
                                 break;
 
                             case 'checkbox' :
-                                $html .= $this->do_checkbox( $field, $current_form );
+                                $html .= $this->doCheckbox( $field, $current_form );
                                 break;
 
                             case 'checkboxes' :
-                                $html .= $this->do_checkboxes( $field, $current_form );
+                                $html .= $this->doCheckboxes( $field, $current_form );
                                 break;
 
                             case 'radio' :
-                                $html .= $this->do_radio( $field, $current_form );
+                                $html .= $this->doRadio( $field, $current_form );
                                 break;
 
                             case 'hidden' :
-                                $html .= $this->do_hidden( $field, $current_form );
+                                $html .= $this->doHidden( $field, $current_form );
                                 break;
 
                             case 'upload' :
-                                $html .= $this->do_upload( $field, $current_form );
+                                $html .= $this->doUpload( $field, $current_form );
                                 break;
 
                             case 'html' :
-                                $html .= $this->do_html( $field, $current_form );
+                                $html .= $this->doHtml( $field, $current_form );
                                 break;
 
                             case 'thickbox_url' :
-                                $html .= $this->do_thickbox_url( $field, $current_form );
+                                $html .= $this->doThickbox( $field, $current_form );
                                 break;
 
                             case 'email' :
-                                $html .= $this->do_email( $field, $current_form );
+                                $html .= $this->doEmail( $field, $current_form );
                                 break;
 
                             case 'touchtime' :
-                                $html .= $this->do_touchtime( $field, $current_form );
+                                $html .= $this->doTouchtime( $field, $current_form );
                                 break;
 
                             default:
-                                $html .= $this->do_text( $field, $current_form );
+                                $html .= $this->doText( $field, $current_form );
                                 break;
                         }
 
@@ -994,8 +994,8 @@ Abstract Class ZM_Form_Fields {
      *
      * @return  An array of formated meta fields, array( 'first_name' => array( 'type' => 'text', 'id' => etc. ) )
      */
-    public function get_formatted_meta( $meta=null, $current_form=null ){
-        $fields = $this->get_fields();
+    public function getFormattedMeta( $meta=null, $current_form=null ){
+        $fields = $this->getFields();
         $current_form_fields = $fields[ $current_form ];
         foreach( $current_form_fields as $field ){
             foreach( $meta as $k => $v ){
@@ -1023,8 +1023,8 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function save_meta( $post_id=null, $meta=null, $current_form=null ){
-        $formatted_meta = $this->get_formatted_meta( $meta, $current_form );
+    public function saveMeta( $post_id=null, $meta=null, $current_form=null ){
+        $formatted_meta = $this->getFormattedMeta( $meta, $current_form );
         $multi_value = null;
         $sanitized = null;
 
@@ -1069,7 +1069,7 @@ Abstract Class ZM_Form_Fields {
      * @since 1.0
      *
      * @param   $type The field type being sanitized, i.e., text, radio, checkbox, etc.
-     *          see get_meta_fields_html() for full list.
+     *          see getMetaFieldsHtml() for full list.
      * @param   $value The value to sanitize
      * @todo    Merge this with the ZM_Settings sanitize methods?
      *
@@ -1082,7 +1082,7 @@ Abstract Class ZM_Form_Fields {
                 $value = esc_textarea( $field['value'] );
                 break;
             case 'textarea_emails':
-                $value = $this->sanitize_textarea_emails( $field['value'] );
+                $value = $this->sanitizeEmails( $field['value'] );
                 break;
 
             case 'checkbox' :
@@ -1102,7 +1102,7 @@ Abstract Class ZM_Form_Fields {
                 break;
 
             // case 'number' :
-                // $value = $this->sanitize_number( $field );
+                // $value = $this->sanitizeNumber( $field );
                 // break;
             case 'text' :
             case 'us_state' :
@@ -1129,7 +1129,7 @@ Abstract Class ZM_Form_Fields {
      * @param $emails An array of emails to validate
      * @return Validated emails separated by a new line (for use in a textarea)
      */
-    public function sanitize_validate_emails( $emails=null ){
+    public function sanitizeValidateEmails( $emails=null ){
         $valid_emails = array();
         foreach( $emails as $email ){
             $sanitized = sanitize_email( $email );
@@ -1151,7 +1151,7 @@ Abstract Class ZM_Form_Fields {
      * @param $input (string) The input being saved
      * @return Sanitized email addresses that are separated by a blank line.
      */
-    public function sanitize_textarea_emails( $input ){
+    public function sanitizeEmails( $input ){
 
         // Explode on new lines, remove blank spaces, convert to array, then re-index
         $input = array_values( array_filter( explode( PHP_EOL, trim( $input ) ), 'trim' ) );
@@ -1160,7 +1160,7 @@ Abstract Class ZM_Form_Fields {
         // build an array of emails
         foreach( $input as $value ){
 
-            if ( $this->sanitize_forward_comments( $value ) ){
+            if ( $this->sanitizeForwardComments( $value ) ){
                 $array_emails[] = $value;
             } else {
 
@@ -1185,7 +1185,7 @@ Abstract Class ZM_Form_Fields {
     }
 
 
-    public function sanitize_number( $field=null, $min=null, $max=null ){
+    public function sanitizeNumber( $field=null, $min=null, $max=null ){
 
         $value = trim( $field['value'] );
 
@@ -1205,15 +1205,15 @@ Abstract Class ZM_Form_Fields {
     }
 
 
-    public function sanitize_default( $value=null ){
+    public function sanitizeDefault( $value=null ){
         return esc_attr( $value );
     }
 
 
-    public function sanitize_multiselect( $value=null ){
+    public function sanitizeMultiselect( $value=null ){
         $tmp = array();
         foreach( $value as $v ){
-            $tmp[] = $this->sanitize_default( $v );
+            $tmp[] = $this->sanitizeDefault( $v );
         }
         return $tmp;
     }
@@ -1225,7 +1225,7 @@ Abstract Class ZM_Form_Fields {
      * @param (string)$value The value we want to sanitize
      * @return The comment if valid, otherwise false
      */
-    public function sanitize_forward_comments( $value=null ){
+    public function sanitizeForwardComments( $value=null ){
 
         $comment = false;
         $pos = strpos( trim( $value ), '//' );
@@ -1238,7 +1238,7 @@ Abstract Class ZM_Form_Fields {
     }
 
 
-    public function sanitize_textarea_ip( $value=null ){
+    public function sanitizeTextareaIp( $value=null ){
 
         // textarea to array
         $textarea_values = array_values( array_filter( explode( PHP_EOL, $value ), 'trim' ) );
@@ -1247,13 +1247,13 @@ Abstract Class ZM_Form_Fields {
         foreach( $textarea_values as $textarea_value ){
 
             // Allow forward comments
-            $comment = $this->sanitize_forward_comments( $textarea_value );
+            $comment = $this->sanitizeForwardComments( $textarea_value );
             if ( $comment ){
                 $ips[] = $comment;
             }
 
             // Sanitize our IP address
-            $valid_ip = $this->sanitize_ip( $textarea_value );
+            $valid_ip = $this->sanitizeIp( $textarea_value );
             if ( $valid_ip ){
                 $ips[] = $valid_ip;
             }
@@ -1284,13 +1284,13 @@ Abstract Class ZM_Form_Fields {
      * @param $ip An IP address to validate
      * @return Valid IP
      */
-    public function sanitize_ip( $ip=null ){
+    public function sanitizeIp( $ip=null ){
         $ip = trim( $ip );
         return ( filter_var( $ip, FILTER_VALIDATE_IP ) ) ? $ip : false;
     }
 
 
-    public function sanitize_touchtime( $value=null ){
+    public function sanitizeTouchtime( $value=null ){
         return $value;
     }
 
@@ -1299,22 +1299,22 @@ Abstract Class ZM_Form_Fields {
      * Prints the meta fields, i.e., form fields
      *
      * @since   1.0
-     * @uses    get_meta_fields_html()
+     * @uses    getMetaFieldsHtml()
      * @param   $post (object) The global post object
      * @todo    Move in-line CSS to style sheet?
      *
      * @return
      */
-    public function meta_fields( $post ){ ?>
+    public function metaFields( $post ){ ?>
         <?php wp_nonce_field( 'zm_form_meta_box', 'zm_form_meta_box_nonce' ); ?>
         <style type="text/css">
             /*label { display: inline-block; width: 200px; }*/
         </style>
-        <?php echo $this->get_meta_fields_html( $post->ID, $post->post_type ); ?>
+        <?php echo $this->getMetaFieldsHtml( $post->ID, $post->post_type ); ?>
     <?php }
 
 
-    public function get_base_dir_url(){
+    public function getBaseDirUrl(){
         return apply_filters( 'zm_form_fields_dir_url', plugin_dir_url( __FILE__ ) );
     }
 }
