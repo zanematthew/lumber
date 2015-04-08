@@ -23,18 +23,18 @@ Abstract Class ZM_Form_Fields {
      */
     public function doText( $field=null, $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
-        $required = ( $req == true ) ? ' required ' : null;
-        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+        $required = ( $attr['req'] == true ) ? ' required ' : null;
+        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
-        $row .= '<label for="' . $for . '">' . $title . $required_html . '</label>';
-        $row .= '<input type="text" id="' . $id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" />';
-        $row .= $desc;
+        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
+        $row .= '<input type="text" id="' . $attr['id'] . '" name="' . $attr['name'] . '" value="' . esc_attr( $attr['value'] ) . '" placeholder="' . $attr['placeholder'] . '" size="25" ' . $required . ' class="large-text ' . $attr['field_class'] .'" />';
+        $row .= $attr['desc'];
         $row .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $row;
         else
             return $row;
@@ -43,17 +43,17 @@ Abstract Class ZM_Form_Fields {
 
     public function doEmail( $field=null, $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
-        $required = ( $req == true ) ? ' required ' : null;
-        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+        $required = ( $attr['req'] == true ) ? ' required ' : null;
+        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
-        $row .= '<label for="' . $for . '">' . $title . $required_html . '</label>';
-        $row .= '<input type="email" id="' . $id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" />';
+        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
+        $row .= '<input type="email" id="' . $attr['id'] . '" name="' . $attr['name'] . '" value="' . esc_attr( $attr['value'] ) . '" placeholder="' . $attr['placeholder'] . '" size="25" ' . $required . ' class="large-text ' . $attr['field_class'] .'" />';
         $row .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $row;
         else
             return $row;
@@ -72,14 +72,14 @@ Abstract Class ZM_Form_Fields {
      */
     public function doHidden( $field=null, $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
-        $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
-        $row .= '<label for="' . $for . '">' . $title . '</label>';
-        $row .= '<input type="hidden" id="' . $id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $style . '/>';
+        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
+        $row .= '<input type="hidden" id="' . $attr['id'] . '" name="' . $attr['name'] . '" value="' . esc_attr( $attr['value'] ) . '" placeholder="' . $attr['placeholder'] . '" size="25" ' . $attr['style'] . '/>';
         $row .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $row;
         else
             return $row;
@@ -98,18 +98,18 @@ Abstract Class ZM_Form_Fields {
      */
     public function doUrl( $field=null, $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
-        $required = ( $req == true ) ? ' required ' : null;
-        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+        $required = ( $attr['req'] == true ) ? ' required ' : null;
+        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
-        $row .= '<label for="' . $for . '">' . $title . $required_html . '</label>';
-        $row .= '<input type="url" id="' . $id . '" name="' . $name . '" value="' . esc_url( $value ) . '" placeholder="' . $placeholder . '" size="25" class="large-text ' . $field_class . '" ' . $required . '/>';
-        $row .= $desc;
+        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
+        $row .= '<input type="url" id="' . $attr['id'] . '" name="' . $attr['name'] . '" value="' . esc_url( $attr['value'] ) . '" placeholder="' . $attr['placeholder'] . '" size="25" class="large-text ' . $attr['field_class'] . '" ' . $required . '/>';
+        $row .= $attr['desc'];
         $row .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $row;
         else
             return $row;
@@ -118,18 +118,18 @@ Abstract Class ZM_Form_Fields {
 
     public function doTextDisabled( $field=null, $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
-        $required = ( $req == true ) ? ' required ' : null;
-        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+        $required = ( $attr['req'] == true ) ? ' required ' : null;
+        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
-        $row .= '<label for="' . $for . '">' . $title . $required_html . '</label>';
-        $row .= '<input type="text" disabled id="' . $id . '" name="' . $name . '" value="' . esc_attr( $value ) . '" placeholder="' . $placeholder . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" style="opacity:0.50;" />';
-        $row .= $desc;
+        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
+        $row .= '<input type="text" disabled id="' . $attr['id'] . '" name="' . $attr['name'] . '" value="' . esc_attr( $attr['value'] ) . '" placeholder="' . $attr['placeholder'] . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" style="opacity:0.50;" />';
+        $row .= $attr['desc'];
         $row .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $row;
         else
             return $row;
@@ -146,7 +146,7 @@ Abstract Class ZM_Form_Fields {
      */
     public function doOpenFieldset( $field=array(), $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
         if ( empty( $field['id'] ) ){
             $id = null;
@@ -156,7 +156,7 @@ Abstract Class ZM_Form_Fields {
 
         $id = sanitize_title( $id );
 
-        $html = '<div class="' . $row_class . ' zm-form-open-fieldset" id="zm_form_open_fieldset_' . $field['id'] . '">';
+        $html = '<div class="' . $attr['row_class'] . ' zm-form-open-fieldset" id="zm_form_open_fieldset_' . $field['id'] . '">';
         $html .= '<fieldset id="zm_form_' . $current_form . '_' . $id . '_fieldset"><legend>' . $title . '</legend>';
         return $html;
     }
@@ -185,7 +185,7 @@ Abstract Class ZM_Form_Fields {
 
         extract( $this->getAttributes( $field ) );
 
-        $html = '<div class="' . $row_class . ' open-section" id="zm_form_' . $field['id'] . '_section">';
+        $html = '<div class="' . $attr['row_class'] . ' open-section" id="zm_form_' . $field['id'] . '_section">';
         return $html;
     }
 
@@ -212,30 +212,30 @@ Abstract Class ZM_Form_Fields {
      */
     public function doSelect( $field=array(), $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
         if ( empty( $field['options'] ) )
             return;
 
-        if ( empty( $value ) && ! empty( $std ) )
-            $value = $std;
+        if ( empty( $attr['value'] ) && ! empty( $attr['std'] ) )
+            $value = $attr['std'];
 
         $options = '<option value="">-- Select a Value --</option>';
         foreach( $field['options'] as $k => $v ) {
-            $options .= '<option value="' . $k . '" ' . selected( $k, $value, false ) . '>' . $v . '</option>';
+            $options .= '<option value="' . $k . '" ' . selected( $k, $attr['value'], false ) . '>' . $v . '</option>';
         }
 
-        $required = ( $req == true ) ? ' required ' : null;
-        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+        $required = ( $attr['req'] == true ) ? ' required ' : null;
+        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . $required_html . '</label> ';
-        $html .= '<select name="' . $name . '" ' . $required . ' id="' . $id . '">';
+        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label> ';
+        $html .= '<select name="' . $attr['name'] . '" ' . $required . ' id="' . $attr['id'] . '">';
         $html .= $options;
         $html .= '</select>';
-        $html .= $desc;
+        $html .= $attr['desc'];
         $html .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $html;
         else
             return $html;
@@ -251,11 +251,13 @@ Abstract Class ZM_Form_Fields {
      * @return
      */
     public function doMultiselect( $field=array(), $current_form=null ){
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
         if ( empty( $field['options'] ) ){
             $html = 'No options';
         } else {
+
+            $value = $attr['value'];
 
             if ( is_string( $value ) ){
                 $value = explode(',', $value);
@@ -273,15 +275,15 @@ Abstract Class ZM_Form_Fields {
                 $options .= '<option value="' . $k . '" ' . $selected . '>' . $v . '</option>';
             }
 
-            $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . '</label> ';
-            $html .= '<select name="' . $name . '[]" multiple id="' . $id . '">';
+            $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label> ';
+            $html .= '<select name="' . $attr['name'] . '[]" multiple id="' . $attr['id'] . '">';
             $html .= $options;
             $html .= '</select>';
-            $html .= $desc;
+            $html .= $attr['desc'];
             $html .= '</p>';
         }
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $html;
         else
             return $html;
@@ -351,23 +353,23 @@ Abstract Class ZM_Form_Fields {
             'WY' => 'Wyoming'
             );
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
         $options = '<option value="">-- Select a Value --</option>';
         foreach( $states as $k => $v ) {
-            $options .= '<option value="' . $k . '" ' . selected( $k, $value, false ) . '>' . $v . '</option>';
+            $options .= '<option value="' . $k . '" ' . selected( $k, $attr['value'], false ) . '>' . $v . '</option>';
         }
 
-        $required = ( $req == true ) ? ' required ' : null;
-        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+        $required = ( $attr['req'] == true ) ? ' required ' : null;
+        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . $required_html . '</label>';
-        $html .= '<select name="' . $name . '" ' . $required . ' id="' . $id . '">';
+        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
+        $html .= '<select name="' . $attr['name'] . '" ' . $required . ' id="' . $attr['id'] . '">';
         $html .= $options;
         $html .= '</select></p>';
-        $html .= $desc;
+        $html .= $attr['desc'];
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $html;
         else
             return $html;
@@ -384,14 +386,14 @@ Abstract Class ZM_Form_Fields {
      */
     public function doTextarea( $field=array(), $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
-        $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . '</label>';
-        $html .= '<textarea id="' . $id . '" name="' . $name . '" rows="'.$rows.'" cols="'.$cols.'" class="large-text '.$field_class.'" placeholder="' . $placeholder . '">' . esc_textarea( $value ) . '</textarea>';
-        $html .= $desc;
+        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
+        $html .= '<textarea id="' . $attr['id'] . '" name="' . $attr['name'] . '" rows="'.$attr['rows'].'" cols="'.$attr['cols'].'" class="large-text '.$attr['field_class'].'" placeholder="' . $attr['placeholder'] . '">' . esc_textarea( $attr['value'] ) . '</textarea>';
+        $html .= $attr['desc'];
         $html .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $html;
         else
             return $html;
@@ -408,14 +410,14 @@ Abstract Class ZM_Form_Fields {
      */
     public function doCss( $field=array(), $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
-        $html  = '<p class="' . $row_class . '" id="' . $row_id . '"><label for="' . $for . '">' . $title . '</label>';
-        $html .= '<textarea class="large-text" name="' . $name . '" placeholder="' . $placeholder . '" rows="10">' . wp_kses( $value, '' ) . '</textarea>';
-        $html .= $desc;
+        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
+        $html .= '<textarea class="large-text" name="' . $attr['name'] . '" placeholder="' . $attr['placeholder'] . '" rows="10">' . wp_kses( $attr['value'], '' ) . '</textarea>';
+        $html .= $attr['desc'];
         $html .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $html;
         else
             return $html;
@@ -450,13 +452,13 @@ Abstract Class ZM_Form_Fields {
      */
     public function doCheckbox( $field=array(), $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
-        $html = '<p class="'.$row_class.'"><input type="checkbox" name="'.$name.'" id="' . $id .'" value="1" ' . checked( 1, $value, false ) . '/>';
-        $html .= '<label for="' . $id .'">' . $desc . '</label>';
+        $html = '<p class="'.$attr['row_class'].'"><input type="checkbox" name="'.$attr['name'].'" id="' . $attr['id'] .'" value="1" ' . checked( 1, $attr['value'], false ) . '/>';
+        $html .= '<label for="' . $attr['id'] .'">' . $attr['desc'] . '</label>';
         $html .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $html;
         else
             return $html;
@@ -466,20 +468,20 @@ Abstract Class ZM_Form_Fields {
     // @todo support for std value
     public function doCheckboxes( $field=array(), $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
         if ( empty( $field['options'] ) )
             return;
 
         $options = null;
 
-        $required = ( $req == true ) ? ' required ' : null;
-        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+        $required = ( $attr['req'] == true ) ? ' required ' : null;
+        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
         foreach( $field['options'] as $k => $v ) {
 
             $key = sanitize_title( $k );
-            $id = $id . '_' . $key;
+            $id = $attr['id'] . '_' . $key;
 
             // Multi-dimensional array support or
             // Associative array support
@@ -501,16 +503,16 @@ Abstract Class ZM_Form_Fields {
                 }
             }
 
-            $options .= '<input type="checkbox" class="" name="'.$name.'[]" id="' . $id . '" value="' . $key . '" ' . $checked . ' />';
+            $options .= '<input type="checkbox" class="" name="'.$attr['name'].'[]" id="' . $id . '" value="' . $key . '" ' . $checked . ' />';
             $options .= '<label for="' . $id . '">' . $title . $required_html . '</label><br />';
         }
 
-        $html  = '<p class="' . $row_class . '" id="' . $row_id . '">';
+        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $html .= $options;
-        $html .= $desc;
+        $html .= $attr['desc'];
         $html .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $html;
         else
             return $html;
@@ -533,9 +535,9 @@ Abstract Class ZM_Form_Fields {
         wp_enqueue_script( 'zm-form-fields-upload',
             $this->getBaseDirUrl() . 'assets/javascripts/scripts.js', array('jquery') );
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
-        $value = empty( $current_value ) ? intval( $value ) : intval( $current_value );
+        $value = empty( $attr['current_value'] ) ? intval( $attr['value'] ) : intval( $attr['current_value'] );
 
         if ( $value ){
             $style = null;
@@ -545,8 +547,8 @@ Abstract Class ZM_Form_Fields {
             $image = null;
         }
 
-        $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
-        $row .= '<label for="' . $for . '">' . $title . '</label>';
+        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
 
 
         $row .= '<span class="zm-form-fields-upload-container">';
@@ -555,15 +557,15 @@ Abstract Class ZM_Form_Fields {
         $row .= $image;
         $row .= '</span>';
         $row .= '<br /><a href="#" class="zm-form-fields-upload-remove-handle" ' . $style . '>' . __('Remove', 'zm_alr_pro_settings') . '</a>';
-        $row .= '<input type="hidden" class="zm-form-fields-upload-attachment-id" id="'.$id.'" name="' . $name . '" value="' . $value . '"/>';
+        $row .= '<input type="hidden" class="zm-form-fields-upload-attachment-id" id="'.$attr['id'].'" name="' . $attr['name'] . '" value="' . $attr['value'] . '"/>';
         $row .= '</span>';
-        $row .= '<br />' . $desc;
+        $row .= '<br />' . $attr['desc'];
 
         $row .= '</p>';
 
 
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $row;
         else
             return $row;
@@ -579,30 +581,30 @@ Abstract Class ZM_Form_Fields {
      */
     public function doRadio( $field=null, $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
         if ( empty( $field['options'] ) )
             return;
 
         $options = null;
 
-        $required = ( $req == true ) ? ' required ' : null;
-        $required_html = ( $req == true ) ? '<sup class="req">&#42;</sup>' : null;
+        $required = ( $attr['req'] == true ) ? ' required ' : null;
+        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
         foreach( $field['options'] as $k => $v ) {
 
             $key = sanitize_title( $k );
-            $id = $id . '_' . $key;
+            $id = $attr['id'] . '_' . $key;
 
-            $options .= '<input type="radio" class="" name="'.$name.'" id="' . $id . '" value="' . $key . '" ' . checked( $key, $value, false ) . ' /><label for="' . $id . '">' . $v . $required_html . '</label><br />';
+            $options .= '<input type="radio" class="" name="'.$attr['name'].'" id="' . $id . '" value="' . $key . '" ' . checked( $key, $attr['value'], false ) . ' /><label for="' . $id . '">' . $v . $required_html . '</label><br />';
         }
 
-        $html  = '<p class="' . $row_class . '" id="' . $row_id . '">';
+        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $html .= $options;
-        $html .= $desc;
+        $html .= $attr['desc'];
         $html .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $html;
         else
             return $html;
@@ -619,14 +621,14 @@ Abstract Class ZM_Form_Fields {
      */
     public function doHtml( $field=null, $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
-        $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
-        $row .= '<label for="' . $for . '">' . $title . '</label>';
+        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
         $row .= $std;
         $row .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $row;
         else
             return $row;
@@ -645,20 +647,20 @@ Abstract Class ZM_Form_Fields {
      */
     public function doThickbox( $field=null, $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
         add_thickbox();
 
-        $row  = '<p class="' . $row_class . '" id="' . $row_id . '">';
-        $row .= '<label for="' . $for . '">' . $title . '</label>';
+        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
         $row .= '<a href="' . add_query_arg( array(
             'TB_iframe' => 'true',
             'width' => '600',
             'height' => '550'
-            ), esc_url( $std ) ) . '" class="thickbox">' . $placeholder . '</a>';
+            ), esc_url( $attr['std'] ) ) . '" class="thickbox">' . $attr['placeholder'] . '</a>';
         $row .= '</p>';
 
-        if ( $echo )
+        if ( $attr['echo'] )
             echo $row;
         else
             return $row;
@@ -668,7 +670,7 @@ Abstract Class ZM_Form_Fields {
     // @todo finish this one
     public function doTouchtime( $field=null, $current_form=null ){
 
-        extract( $this->getAttributes( $field, $current_form ) );
+        $attr = $this->getAttributes( $field, $current_form );
 
         global $wp_locale;
 
@@ -688,7 +690,7 @@ Abstract Class ZM_Form_Fields {
             $mn = $value['minute'];
         }
 
-        $month = '<select name="' . $name . '[month]">';
+        $month = '<select name="' . $attr['name'] . '[month]">';
 
         for ( $i = 1; $i < 13; $i = $i +1 ) {
 
@@ -705,20 +707,20 @@ Abstract Class ZM_Form_Fields {
         }
         $month .= '</select>';
 
-        $day = '<input type="text" name="' . $name . '[day]" value="' . $jj . '" size="2" maxlength="2" autocomplete="off" />';
-        $year = '<input type="text" name="' . $name . '[year]" value="' . $aa . '" size="4" maxlength="4" autocomplete="off" />';
-        $hour = '<input type="text" name="' . $name . '[hour]" value="' . $hh . '" size="2" maxlength="2" autocomplete="off" />';
-        $minute = '<input type="text" name="' . $name . '[minute]" value="' . $mn . '" size="2" maxlength="2" autocomplete="off" />';
+        $day = '<input type="text" name="' . $attr['name'] . '[day]" value="' . $jj . '" size="2" maxlength="2" autocomplete="off" />';
+        $year = '<input type="text" name="' . $attr['name'] . '[year]" value="' . $aa . '" size="4" maxlength="4" autocomplete="off" />';
+        $hour = '<input type="text" name="' . $attr['name'] . '[hour]" value="' . $hh . '" size="2" maxlength="2" autocomplete="off" />';
+        $minute = '<input type="text" name="' . $attr['name'] . '[minute]" value="' . $mn . '" size="2" maxlength="2" autocomplete="off" />';
 
 
         // Final HTML
-        $html  = '<p class="' . $row_class . ' zm-form-touch-time" id="' . $row_id . '">';
+        $html  = '<p class="' . $attr['row_class'] . ' zm-form-touch-time" id="' . $attr['row_id'] . '">';
         /* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
         $html .= sprintf( '%1$s %2$s, %3$s @ %4$s : %5$s', $month, $day, $year, $hour, $minute );
-        $html .= '<span class="desc">'  . $desc . '</span>';
+        $html .= '<span class="desc">'  . $attr['desc'] . '</span>';
         $html .= '</p>';
 
-        if ( $echo ){
+        if ( $attr['echo'] ){
             echo $html;
         } else {
             return $html;
