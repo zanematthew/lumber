@@ -1,13 +1,14 @@
 <?php
 
-// This should be agnostic of meta vs. option
-// post_type is actually our "key"
-// This class can be broken out into 3 abstract classes?
-//      do_{$form_field}
-//      get_{$something}
-//      save_{$something}
-//      sanitize_{$something}
-
+/**
+ * This should be agnostic of meta vs. option
+ * post_type is actually our "key"
+ * This class can be broken out into 3 abstract classes?
+ *      do_{$form_field}
+ *      get_{$something}
+ *      save_{$something}
+ *      sanitize_{$something}
+ */
 if ( ! class_exists( 'ZM_Form_Fields' ) ) :
 Abstract Class ZM_Form_Fields {
 
