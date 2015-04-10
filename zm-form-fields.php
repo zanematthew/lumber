@@ -22,16 +22,45 @@ Abstract Class ZM_Form_Fields {
      *
      * @return
      */
-    public function doText( $field=null, $current_form=null ){
+    public function doText( $field=null, $current_form=null, $type=null, $disabled=null ){
+
+        $attr = $this->getAttributes( $field, $current_form );
+
+        // Some defaults, maybe clean this up later
+        $required = ( $attr['req'] ) ? ' required ' : null;
+        $type     = empty( $type ) ? 'text' : $type;
+        $disabled = empty( $disabled ) ? null : 'disabled';
+        $checkbox = ( $type == 'checkbox' ) ? 'value="1" ' . checked( 1, $attr['value'], false ) : null;
+        $size     = ( $type == 'checkbox' ) ? null : 'size="25"';
+
+        $row = '<input
+        type="' . $type . '" ' . $disabled . ' ' . $checkbox . '
+        id="' . $attr['id'] . '"
+        name="' . $attr['name'] . '"
+        value="' . esc_attr( $attr['value'] ) . '"
+        placeholder="' . $attr['placeholder'] . '" ' . $size . $required . '
+        class="' . $attr['field_class'] .'"
+        />';
+
+        if ( $attr['echo'] )
+            echo $row;
+        else
+            return $row;
+    }
+
+
+    public function doFancyText( $field=null, $current_form=null, $type=null, $disabled=null ){
 
         $attr = $this->getAttributes( $field, $current_form );
 
         $required = ( $attr['req'] == true ) ? ' required ' : null;
         $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
+        $type = empty( $type ) ? 'text' : $type;
+        $disabled = empty( $disabled ) ? '' : 'disabled';
 
         $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
-        $row .= '<input type="text" id="' . $attr['id'] . '" name="' . $attr['name'] . '" value="' . esc_attr( $attr['value'] ) . '" placeholder="' . $attr['placeholder'] . '" size="25" ' . $required . ' class="large-text ' . $attr['field_class'] .'" />';
+        $row .= $this->doText( $field, $current_form, $type, $disabled );
         $row .= $attr['desc'];
         $row .= '</p>';
 
@@ -44,15 +73,9 @@ Abstract Class ZM_Form_Fields {
 
     public function doEmail( $field=null, $current_form=null ){
 
+        $row = $this->doFancyText( $field, $current_form, 'email' );
+
         $attr = $this->getAttributes( $field, $current_form );
-
-        $required = ( $attr['req'] == true ) ? ' required ' : null;
-        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
-
-        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
-        $row .= '<input type="email" id="' . $attr['id'] . '" name="' . $attr['name'] . '" value="' . esc_attr( $attr['value'] ) . '" placeholder="' . $attr['placeholder'] . '" size="25" ' . $required . ' class="large-text ' . $attr['field_class'] .'" />';
-        $row .= '</p>';
 
         if ( $attr['echo'] )
             echo $row;
@@ -73,12 +96,9 @@ Abstract Class ZM_Form_Fields {
      */
     public function doHidden( $field=null, $current_form=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $row = $this->doFancyText( $field, $current_form, 'hidden' );
 
-        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
-        $row .= '<input type="hidden" id="' . $attr['id'] . '" name="' . $attr['name'] . '" value="' . esc_attr( $attr['value'] ) . '" placeholder="' . $attr['placeholder'] . '" size="25" ' . $attr['style'] . '/>';
-        $row .= '</p>';
+        $attr = $this->getAttributes( $field, $current_form );
 
         if ( $attr['echo'] )
             echo $row;
@@ -99,16 +119,9 @@ Abstract Class ZM_Form_Fields {
      */
     public function doUrl( $field=null, $current_form=null ){
 
+        $row = $this->doFancyText( $field, $current_form, 'url' );
+
         $attr = $this->getAttributes( $field, $current_form );
-
-        $required = ( $attr['req'] == true ) ? ' required ' : null;
-        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
-
-        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
-        $row .= '<input type="url" id="' . $attr['id'] . '" name="' . $attr['name'] . '" value="' . esc_url( $attr['value'] ) . '" placeholder="' . $attr['placeholder'] . '" size="25" class="large-text ' . $attr['field_class'] . '" ' . $required . '/>';
-        $row .= $attr['desc'];
-        $row .= '</p>';
 
         if ( $attr['echo'] )
             echo $row;
@@ -119,21 +132,76 @@ Abstract Class ZM_Form_Fields {
 
     public function doTextDisabled( $field=null, $current_form=null ){
 
+        $row = $this->doFancyText( $field, $current_form, 'text', 'disabled' );
+
         $attr = $this->getAttributes( $field, $current_form );
-
-        $required = ( $attr['req'] == true ) ? ' required ' : null;
-        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
-
-        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
-        $row .= '<input type="text" disabled id="' . $attr['id'] . '" name="' . $attr['name'] . '" value="' . esc_attr( $attr['value'] ) . '" placeholder="' . $attr['placeholder'] . '" size="25" ' . $required . ' class="large-text ' . $field_class .'" style="opacity:0.50;" />';
-        $row .= $attr['desc'];
-        $row .= '</p>';
 
         if ( $attr['echo'] )
             echo $row;
         else
             return $row;
+    }
+
+
+    /**
+     *
+     * @since 1.0
+     *
+     * doCheckbox( $field=array(), $current_form=null, $value=null
+     *
+     * @return
+     */
+    public function doCheckbox( $field=array(), $current_form=null ){
+
+        $field['field_class'] = 'checkbox';
+        $attr = $this->getAttributes( $field, $current_form );
+
+        $row = $this->doFancyText( $field, $current_form, 'checkbox' );
+
+        if ( $attr['echo'] )
+            echo $row;
+        else
+            return $row;
+    }
+
+
+    /**
+     *
+     * @since 1.0
+     *
+     *
+     * @return
+     */
+    public function doRadio( $field=null, $current_form=null ){
+
+        $attr = $this->getAttributes( $field, $current_form );
+
+        if ( empty( $field['options'] ) )
+            return;
+
+        $options = null;
+
+        $required = ( $attr['req'] == true ) ? ' required ' : null;
+        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
+
+        foreach( $field['options'] as $k => $v ) {
+
+            $key = sanitize_title( $k );
+            $id = $attr['id'] . '_' . $key;
+
+            $options .= '<input type="radio" class="" name="'.$attr['name'].'" id="' . $id . '" value="' . $key . '" ' . checked( $key, $attr['value'], false ) . ' />';
+            $options .= '<label for="' . $id . '">' . $v . $required_html . '</label><br />';
+        }
+
+        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $html .= $options;
+        $html .= $attr['desc'];
+        $html .= '</p>';
+
+        if ( $attr['echo'] )
+            echo $html;
+        else
+            return $html;
     }
 
 
@@ -443,29 +511,6 @@ Abstract Class ZM_Form_Fields {
     }
 
 
-    /**
-     *
-     * @since 1.0
-     *
-     * doCheckbox( $field=array(), $current_form=null, $value=null
-     *
-     * @return
-     */
-    public function doCheckbox( $field=array(), $current_form=null ){
-
-        $attr = $this->getAttributes( $field, $current_form );
-
-        $html = '<p class="'.$attr['row_class'].'"><input type="checkbox" name="'.$attr['name'].'" id="' . $attr['id'] .'" value="1" ' . checked( 1, $attr['value'], false ) . '/>';
-        $html .= '<label for="' . $attr['id'] .'">' . $attr['desc'] . '</label>';
-        $html .= '</p>';
-
-        if ( $attr['echo'] )
-            echo $html;
-        else
-            return $html;
-    }
-
-
     // @todo support for std value
     public function doCheckboxes( $field=array(), $current_form=null ){
 
@@ -570,45 +615,6 @@ Abstract Class ZM_Form_Fields {
             echo $row;
         else
             return $row;
-    }
-
-
-    /**
-     *
-     * @since 1.0
-     *
-     *
-     * @return
-     */
-    public function doRadio( $field=null, $current_form=null ){
-
-        $attr = $this->getAttributes( $field, $current_form );
-
-        if ( empty( $field['options'] ) )
-            return;
-
-        $options = null;
-
-        $required = ( $attr['req'] == true ) ? ' required ' : null;
-        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
-
-        foreach( $field['options'] as $k => $v ) {
-
-            $key = sanitize_title( $k );
-            $id = $attr['id'] . '_' . $key;
-
-            $options .= '<input type="radio" class="" name="'.$attr['name'].'" id="' . $id . '" value="' . $key . '" ' . checked( $key, $attr['value'], false ) . ' /><label for="' . $id . '">' . $v . $required_html . '</label><br />';
-        }
-
-        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $html .= $options;
-        $html .= $attr['desc'];
-        $html .= '</p>';
-
-        if ( $attr['echo'] )
-            echo $html;
-        else
-            return $html;
     }
 
 
@@ -746,36 +752,32 @@ Abstract Class ZM_Form_Fields {
         $current_form = empty( $field['namespace'] ) ? $current_form : $field['namespace'];
         $field_id = isset( $field['id'] ) ? $field['id'] : null;
 
-        // Other people can override the name, by passing it in with the field
-        $name = '_' . $current_form . '_form[meta]['.$field_id.']';
-
-
         if ( isset( $field['value'] ) ){
             $value = $field['value'];
         } else {
             $value = empty( $field['std'] ) ? null : $field['std'];
         }
 
-        $std = isset( $field['std'] ) ? $field['std'] : false;
-
-        $attr = array(
-            'for' => $current_form . '_' . $field_id,
-            'title' => empty( $field['title'] ) ? null : $field['title'],
-            'name' => empty( $field['name'] ) ? $name : $field['name'],
-            'placeholder' => empty( $field['placeholder'] ) ? null : $field['placeholder'],
-            'row_class' => ( empty( $field['extra_class'] ) ) ? 'zm-form-default-row' : 'zm-form-default-row ' . $field['extra_class'],
-            'field_class' => ( empty( $field['field_class'] ) ) ? '' : $field['field_class'],
-            'row_id' => 'zm_form_' . $current_form . '_' . $field_id . '_row',
-            'id' => $current_form . '_' . $field_id,
-            'req' => empty( $field['req'] ) ? null : $field['req'],
-            'desc' => empty( $field['desc'] ) ? null : '<span class="description">' . $field['desc'] . '</span>',
-            'echo' => empty( $field['echo'] ) ? false : true,
-            'value' => $value,
-            'style' => empty( $field['style'] ) ? false : $field['style'],
-            'std' => $std,
-            'rows' => empty( $field['rows'] ) ? 4 : $field['rows'],
-            'cols' => empty( $field['cols'] ) ? 8 : $field['cols'],
-            );
+        $attr = wp_parse_args( $field, array(
+            'for'         => $current_form . '_' . $field_id,
+            'title'       => null,
+            'name'        => '_' . $current_form . '_form[meta]['.$field_id.']', // Other people can override the name, by passing it in with the field
+            'placeholder' => null,
+            'row_class'   => ( empty( $field['extra_class'] ) )
+            ? 'zm-form-default-row'
+            : 'zm-form-default-row ' . $field['extra_class'],
+            'field_class' => 'large-text',
+            'row_id'      => 'zm_form_' . $current_form . '_' . $field_id . '_row',
+            'id'          => $current_form . '_' . $field_id,
+            'req'         => null,
+            'desc'        => empty( $field['desc'] ) ? null : '<span class="description">' . $field['desc'] . '</span>',
+            'echo'        => false,
+            'value'       => $value,
+            'style'       => false,
+            'std'         => false,
+            'rows'        => 4,
+            'cols'        => 8
+        ) );
 
         return $attr;
     }
@@ -969,7 +971,7 @@ Abstract Class ZM_Form_Fields {
                                 break;
 
                             default:
-                                $html .= $this->doText( $field, $current_form );
+                                $html .= $this->doFancyText( $field, $current_form );
                                 break;
                         }
 
