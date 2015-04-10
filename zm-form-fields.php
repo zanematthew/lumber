@@ -1277,11 +1277,6 @@ Abstract Class ZM_Form_Fields {
 
 
     /**
-     *
-     * @since 1.0.0
-     * @param
-     * @return
-     *//**
      * Validate an IP address
      *
      * @param $ip An IP address to validate
@@ -1310,9 +1305,6 @@ Abstract Class ZM_Form_Fields {
      */
     public function metaFields( $post ){ ?>
         <?php wp_nonce_field( 'zm_form_meta_box', 'zm_form_meta_box_nonce' ); ?>
-        <style type="text/css">
-            /*label { display: inline-block; width: 200px; }*/
-        </style>
         <?php echo $this->getMetaFieldsHtml( $post->ID, $post->post_type ); ?>
     <?php }
 
