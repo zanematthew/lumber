@@ -9,8 +9,8 @@
  *      save_{$something}
  *      sanitize_{$something}
  */
-if ( ! class_exists( 'ZM_Form_Fields' ) ) :
-Abstract Class ZM_Form_Fields {
+if ( ! class_exists( 'Lumber' ) ) :
+Abstract Class Lumber {
 
     /**
      *
@@ -817,9 +817,9 @@ Abstract Class ZM_Form_Fields {
         $forms = $this->getForms();
 
         foreach( $forms as $form ){
-            $fields[ $form['post_type'] ] = apply_filters( 'zm_form_fields_' . $form['post_type'], $default_fields );
+            $fields[ $form['post_type'] ] = apply_filters( 'lumber_' . $form['post_type'], $default_fields );
         }
-        return apply_filters( 'zm_form_fields_additional_fields', $fields );
+        return apply_filters( 'lumber_additional_fields', $fields );
     }
 
 
@@ -1312,7 +1312,7 @@ Abstract Class ZM_Form_Fields {
 
 
     public function getBaseDirUrl(){
-        return apply_filters( 'zm_form_fields_dir_url', plugin_dir_url( __FILE__ ) );
+        return apply_filters( 'lumber_dir_url', plugin_dir_url( __FILE__ ) );
     }
 }
 endif;

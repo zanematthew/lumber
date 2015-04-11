@@ -25,7 +25,7 @@ Usage
 ==
 1. `git submodule add [repo url] lib/zm-form-fields`
 1. At the top of your `php` file: `require_once dirname( __FILE__ ) . '/lib/zm-form-fields/zm-form-fields.php';`
-1. Extend the class `Class My_Class Extends ZM_Form_Fields`
+1. Extend the class `Class My_Class Extends Lumber`
 1. From within your class: `$this->do_text( $field=array(), $current_form=null, $value=null )`
 
 
@@ -53,4 +53,4 @@ $field = array(
     );
 ```
 
-Note if using this in a theme use this filter to change the lib url: `zm_form_fields_upload_js`
+Note if using this in a theme use this filter to change the lib url: `lumber_upload_js`
