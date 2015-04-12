@@ -12,19 +12,23 @@
 if ( ! class_exists( 'Lumber' ) ) :
 Abstract Class Lumber {
 
-    /**
-     *
-     * @since 1.0
-     *
-     * @param $field
-     * @param $current_form
-     * @param $value
-     *
-     * @return
-     */
-    public function doText( $field=null, $current_form=null, $type=null, $disabled=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+    /**
+     * Creates a generic HTML input field
+     *
+     * @since 1.0.0
+     *
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     * @param $type             (string)    The input type, must be a relevant HTML input type
+     * @param $disabled         (string)    If the field should use the HTML disabled attribute
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doText( $attr=null, $current_form=null, $type=null, $disabled=null ){
+
+        $attr = $this->getAttributes( $attr, $current_form );
 
         // Some defaults, maybe clean this up later
         $required = ( $attr['req'] ) ? ' required ' : null;
@@ -33,7 +37,7 @@ Abstract Class Lumber {
         $checkbox = ( $type == 'checkbox' ) ? 'value="1" ' . checked( 1, $attr['value'], false ) : null;
         $size     = ( $type == 'checkbox' ) ? null : 'size="25"';
 
-        $row = '<input
+        $field = '<input
         type="' . $type . '" ' . $disabled . ' ' . $checkbox . '
         id="' . $attr['id'] . '"
         name="' . $attr['name'] . '"
@@ -43,138 +47,172 @@ Abstract Class Lumber {
         />';
 
         if ( $attr['echo'] )
-            echo $row;
+            echo $field;
         else
-            return $row;
+            return $field;
     }
 
 
-    public function doFancyText( $field=null, $current_form=null, $type=null, $disabled=null ){
+    /**
+     * Creates an input field of a given HTML type, but with additional HTML markup
+     *
+     * @since 1.0.0
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     * @param $type             (string)    The input type, must be a relevant HTML input type
+     * @param $disabled         (string)    If the field should use the HTML disabled attribute
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doFancyText( $attr=null, $current_form=null, $type=null, $disabled=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
         $required = ( $attr['req'] == true ) ? ' required ' : null;
         $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
         $type = empty( $type ) ? 'text' : $type;
         $disabled = empty( $disabled ) ? '' : 'disabled';
 
-        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
-        $row .= $this->doText( $field, $current_form, $type, $disabled );
-        $row .= $attr['desc'];
-        $row .= '</p>';
+        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
+        $field .= $this->doText( $attr, $current_form, $type, $disabled );
+        $field .= $attr['desc'];
+        $field .= '</p>';
 
         if ( $attr['echo'] )
-            echo $row;
+            echo $field;
         else
-            return $row;
-    }
-
-
-    public function doEmail( $field=null, $current_form=null ){
-
-        $row = $this->doFancyText( $field, $current_form, 'email' );
-
-        $attr = $this->getAttributes( $field, $current_form );
-
-        if ( $attr['echo'] )
-            echo $row;
-        else
-            return $row;
+            return $field;
     }
 
 
     /**
+     * Creates an HTML input field
      *
-     * @since 1.0
+     * @since 1.0.0
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * @param $field
-     * @param $current_form
-     * @param $value
-     *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doHidden( $field=null, $current_form=null ){
+    public function doEmail( $attr=null, $current_form=null ){
 
-        $row = $this->doFancyText( $field, $current_form, 'hidden' );
+        $field = $this->doFancyText( $attr, $current_form, 'email' );
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
         if ( $attr['echo'] )
-            echo $row;
+            echo $field;
         else
-            return $row;
+            return $field;
     }
 
 
     /**
+     * Creates a hidden HTML input field
      *
      * @since 1.0
      *
-     * @param $field
-     * @param $current_form
-     * @param $value
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doUrl( $field=null, $current_form=null ){
+    public function doHidden( $attr=null, $current_form=null ){
 
-        $row = $this->doFancyText( $field, $current_form, 'url' );
+        $field = $this->doFancyText( $attr, $current_form, 'hidden' );
 
-        $attr = $this->getAttributes( $field, $current_form );
-
-        if ( $attr['echo'] )
-            echo $row;
-        else
-            return $row;
-    }
-
-
-    public function doTextDisabled( $field=null, $current_form=null ){
-
-        $row = $this->doFancyText( $field, $current_form, 'text', 'disabled' );
-
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
         if ( $attr['echo'] )
-            echo $row;
+            echo $field;
         else
-            return $row;
+            return $field;
     }
 
 
     /**
+     * Creates a URL HTML input field
      *
      * @since 1.0
      *
-     * doCheckbox( $field=array(), $current_form=null, $value=null
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doCheckbox( $field=array(), $current_form=null ){
+    public function doUrl( $attr=null, $current_form=null ){
 
-        $field['field_class'] = 'checkbox';
-        $attr = $this->getAttributes( $field, $current_form );
+        $field = $this->doFancyText( $attr, $current_form, 'url' );
 
-        $row = $this->doFancyText( $field, $current_form, 'checkbox' );
+        $attr = $this->getAttributes( $attr, $current_form );
 
         if ( $attr['echo'] )
-            echo $row;
+            echo $field;
         else
-            return $row;
+            return $field;
     }
 
 
     /**
+     * Creates a hidden HTML input field
      *
-     * @since 1.0
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doRadio( $field=null, $current_form=null ){
+    public function doTextDisabled( $attr=null, $current_form=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $field = $this->doFancyText( $attr, $current_form, 'text', 'disabled' );
+
+        $attr = $this->getAttributes( $attr, $current_form );
+
+        if ( $attr['echo'] )
+            echo $field;
+        else
+            return $field;
+    }
+
+
+    /**
+     * Creates a checkbox HTML input field
+     *
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doCheckbox( $attr=array(), $current_form=null ){
+
+        $attr['field_class'] = 'checkbox';
+        $attr = $this->getAttributes( $attr, $current_form );
+        $field = $this->doFancyText( $attr, $current_form, 'checkbox' );
+
+        if ( $attr['echo'] )
+            echo $field;
+        else
+            return $field;
+    }
+
+
+    /**
+     * Creates a group of radio buttons
+     *
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doRadio( $attr=null, $current_form=null ){
+
+        $attr = $this->getAttributes( $attr, $current_form );
 
         if ( empty( $field['options'] ) )
             return;
@@ -193,78 +231,85 @@ Abstract Class Lumber {
             $options .= '<label for="' . $id . '">' . $v . $required_html . '</label><br />';
         }
 
-        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $html .= $options;
-        $html .= $attr['desc'];
-        $html .= '</p>';
+        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field .= $options;
+        $field .= $attr['desc'];
+        $field .= '</p>';
 
         if ( $attr['echo'] )
-            echo $html;
+            echo $field;
         else
-            return $html;
+            return $field;
     }
 
 
     /**
+     * Creates the open HTML tags for a fieldset
      *
-     * @since 1.0
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * @param $field
-     *
-     * @return
+     * @return $field           (string)     The HTML attribute
      */
-    public function doOpenFieldset( $field=array(), $current_form=null ){
+    public function doOpenFieldset( $attr=array(), $current_form=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
-        if ( empty( $field['id'] ) ){
-            $id = null;
-        } else {
-            $id = $field['id'];
-        }
-
+        $id = ( empty( $field['id'] ) ) ? null : $field['id'];
         $id = sanitize_title( $id );
 
-        $html = '<div class="' . $attr['row_class'] . ' zm-form-open-fieldset" id="zm_form_open_fieldset_' . $field['id'] . '">';
-        $html .= '<fieldset id="zm_form_' . $current_form . '_' . $id . '_fieldset"><legend>' . $title . '</legend>';
-        return $html;
+        $field = '<div class="' . $attr['row_class'] . ' zm-form-open-fieldset" id="zm_form_open_fieldset_' . $field['id'] . '">';
+        $field .= '<fieldset id="zm_form_' . $current_form . '_' . $id . '_fieldset"><legend>' . $title . '</legend>';
+
+        return $field;
+
     }
 
 
     /**
+     * Creates a closing HTML fieldset
      *
-     * @since 1.0
+     * @since 1.0.0
      *
-     *
-     * @return
+     * @return $field   (string)    The HTML attribute
      */
     public function doEndFieldset(){
+
         return '</fieldset></div>';
+
     }
 
 
     /**
+     * Creates the arbitrary opening HTML div wrapper
      *
-     * @since 1.0
+     * @since 1.0.0
      *
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
      *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doOpenSection( $field=array() ){
+    public function doOpenSection( $attr=array() ){
 
-        extract( $this->getAttributes( $field ) );
+        $attr = $this->getAttributes( $attr );
 
-        $html = '<div class="' . $attr['row_class'] . ' open-section" id="zm_form_' . $field['id'] . '_section">';
-        return $html;
+        $field = '<div class="' . $attr['row_class'] . ' open-section" id="zm_form_' . $field['id'] . '_section">';
+
+        if ( $attr['echo'] )
+            echo $field;
+        else
+            return $field;
+
     }
 
 
     /**
+     * Creates the arbitrary closing HTML div wrapper
      *
-     * @since 1.0
-     *
-     *
-     * @return
+     * @since 1.0.0
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
     public function doEndSection(){
         return '</div>';
@@ -272,58 +317,102 @@ Abstract Class Lumber {
 
 
     /**
+     * Creates a select HTML field
      *
-     * @since 1.0
+     * @since 1.0.0
      *
-     * doSelect( $field=array(), $current_form=null, $value=null
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doSelect( $field=array(), $current_form=null ){
+    public function doSelect( $attr=array(), $current_form=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
-        if ( empty( $field['options'] ) )
+        if ( empty( $attr['options'] ) )
             return;
 
         if ( empty( $attr['value'] ) && ! empty( $attr['std'] ) )
             $value = $attr['std'];
 
-        $options = '<option value="">-- Select a Value --</option>';
-        foreach( $field['options'] as $k => $v ) {
+        $options = sprintf( '<option value="">%s</option>',
+            __( '-- Select a Value --', 'lumber' ) );
+
+        foreach( $attr['options'] as $k => $v ) {
             $options .= '<option value="' . $k . '" ' . selected( $k, $attr['value'], false ) . '>' . $v . '</option>';
         }
 
         $required = ( $attr['req'] == true ) ? ' required ' : null;
-        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label> ';
-        $html .= '<select name="' . $attr['name'] . '" ' . $required . ' id="' . $attr['id'] . '">';
-        $html .= $options;
-        $html .= '</select>';
-        $html .= $attr['desc'];
-        $html .= '</p>';
+        $field = '<select name="' . $attr['name'] . '" ' . $required . ' id="' . $attr['id'] . '">';
+        $field .= $options;
+        $field .= '</select>';
 
         if ( $attr['echo'] )
-            echo $html;
+            echo $field;
         else
-            return $html;
+            return $field;
     }
 
 
     /**
+     * Creates a select HTML field
      *
-     * @since 1.0
+     * @since 1.0.0
      *
-     * doMultiselect( $field=array(), $current_form=null, $value=null
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doMultiselect( $field=array(), $current_form=null ){
-        $attr = $this->getAttributes( $field, $current_form );
+    public function doFancySelect( $attr=array(), $current_form=null ){
 
-        if ( empty( $field['options'] ) ){
-            $html = 'No options';
+        $attr = $this->getAttributes( $attr, $current_form );
+
+        if ( empty( $attr['options'] ) )
+            return;
+
+        if ( empty( $attr['value'] ) && ! empty( $attr['std'] ) )
+            $value = $attr['std'];
+
+        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
+
+        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label> ';
+
+        $field .= $this->doSelect( $attr, $current_form );
+
+        $field .= $attr['desc'];
+        $field .= '</p>';
+
+        if ( $attr['echo'] )
+            echo $field;
+        else
+            return $field;
+    }
+
+
+    /**
+     * Creates a multiselect HTML field
+     *
+     * @since 1.0.0
+     *
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doMultiselect( $attr=array(), $current_form=null ){
+
+        $attr = $this->getAttributes( $attr, $current_form );
+
+        if ( empty( $attr['options'] ) ){
+
+            $field = 'No options';
+
         } else {
 
             $value = $attr['value'];
@@ -334,7 +423,8 @@ Abstract Class Lumber {
 
             $options = '<option value="">-- Select a Value --</option>';
             $selected = '';
-            foreach( $field['options'] as $k => $v ) {
+
+            foreach( $attr['options'] as $k => $v ) {
 
                 if ( is_array( $value ) ){
                     $selected = ( ! empty( $value ) && in_array( $k, $value ) ) ? 'selected=selected' : null;
@@ -344,30 +434,32 @@ Abstract Class Lumber {
                 $options .= '<option value="' . $k . '" ' . $selected . '>' . $v . '</option>';
             }
 
-            $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label> ';
-            $html .= '<select name="' . $attr['name'] . '[]" multiple id="' . $attr['id'] . '">';
-            $html .= $options;
-            $html .= '</select>';
-            $html .= $attr['desc'];
-            $html .= '</p>';
+            $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label> ';
+            $field .= '<select name="' . $attr['name'] . '[]" multiple id="' . $attr['id'] . '">';
+            $field .= $options;
+            $field .= '</select>';
+            $field .= $attr['desc'];
+            $field .= '</p>';
         }
 
         if ( $attr['echo'] )
-            echo $html;
+            echo $field;
         else
-            return $html;
+            return $field;
     }
 
 
     /**
+     * Creates a select field with US states as values
      *
-     * @since 1.0
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * doUsStateSelect( $field=array(), $current_form=null, $value=null
-     *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doUsStateSelect( $field=array(), $current_form=null ){
+    public function doUsStateSelect( $attr=array(), $current_form=null ){
+
         $states = array(
             'AL' => 'Alabama',
             'AK' => 'Alaska',
@@ -422,101 +514,123 @@ Abstract Class Lumber {
             'WY' => 'Wyoming'
             );
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
+        $attr['options'] = $states;
 
-        $options = '<option value="">-- Select a Value --</option>';
-        foreach( $states as $k => $v ) {
-            $options .= '<option value="' . $k . '" ' . selected( $k, $attr['value'], false ) . '>' . $v . '</option>';
-        }
-
-        $required = ( $attr['req'] == true ) ? ' required ' : null;
-        $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
-
-        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
-        $html .= '<select name="' . $attr['name'] . '" ' . $required . ' id="' . $attr['id'] . '">';
-        $html .= $options;
-        $html .= '</select></p>';
-        $html .= $attr['desc'];
+        $field = $this->doFancySelect( $attr, $current_form );
 
         if ( $attr['echo'] )
-            echo $html;
+            echo $field;
         else
-            return $html;
+            return $field;
     }
 
 
     /**
+     * Creates a textarea HTML input field
      *
-     * @since 1.0
+     * @since 1.0.0
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * doTextarea( $field=array(), $current_form=null, $value=null
-     *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doTextarea( $field=array(), $current_form=null ){
+    public function doTextarea( $attr=array(), $current_form=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
-        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
-        $html .= '<textarea id="' . $attr['id'] . '" name="' . $attr['name'] . '" rows="'.$attr['rows'].'" cols="'.$attr['cols'].'" class="large-text '.$attr['field_class'].'" placeholder="' . $attr['placeholder'] . '">' . esc_textarea( $attr['value'] ) . '</textarea>';
-        $html .= $attr['desc'];
-        $html .= '</p>';
+        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
+        $field .= '<textarea id="' . $attr['id'] . '" name="' . $attr['name'] . '" rows="'.$attr['rows'].'" cols="'.$attr['cols'].'" class="large-text '.$attr['field_class'].'" placeholder="' . $attr['placeholder'] . '">' . esc_textarea( $attr['value'] ) . '</textarea>';
+        $field .= $attr['desc'];
+        $field .= '</p>';
 
         if ( $attr['echo'] )
-            echo $html;
+            echo $field;
         else
-            return $html;
+            return $field;
     }
 
 
     /**
+     * Creates a hidden HTML input field
      *
-     * @since 1.0
+     * @since 1.0.0
      *
-     * doCss( $field=array(), $current_form=null, $value=null
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doCss( $field=array(), $current_form=null ){
+    public function doCss( $attr=array(), $current_form=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
-        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
-        $html .= '<textarea class="large-text" name="' . $attr['name'] . '" placeholder="' . $attr['placeholder'] . '" rows="10">' . wp_kses( $attr['value'], '' ) . '</textarea>';
-        $html .= $attr['desc'];
-        $html .= '</p>';
+        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
+        $field .= '<textarea class="large-text" name="' . $attr['name'] . '" placeholder="' . $attr['placeholder'] . '" rows="10">' . wp_kses( $attr['value'], '' ) . '</textarea>';
+        $field .= $attr['desc'];
+        $field .= '</p>';
 
         if ( $attr['echo'] )
-            echo $html;
+            echo $field;
         else
-            return $html;
+            return $field;
     }
 
 
     /**
+     * Creates a textarea to be used for a series of email addresses
      *
-     * @since 1.0
+     * @since 1.0.0
      *
-     * doEmails( $field=array(), $current_form=null, $value=null
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doEmails( $field=array(), $current_form=null ){
-        return $this->doTextarea( $field, $current_form );
+    public function doEmails( $attr=array(), $current_form=null ){
+
+        return $this->doTextarea( $attr, $current_form );
+
     }
 
 
-    public function doIps( $field=array(), $current_form=null ){
-        return $this->doTextarea( $field, $current_form );
+    /**
+     * Creates a textarea to be used for a series of IP addresses
+     *
+     * @since 1.0.0
+     *
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doIps( $attr=array(), $current_form=null ){
+
+        return $this->doTextarea( $attr, $current_form );
+
     }
 
 
-    // @todo support for std value
-    public function doCheckboxes( $field=array(), $current_form=null ){
+    /**
+     * Creates a groupd of checkboxes
+     *
+     * @since 1.0.0
+     *
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doCheckboxes( $attr=array(), $current_form=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
-        if ( empty( $field['options'] ) )
+        if ( empty( $attr['options'] ) )
             return;
 
         $options = null;
@@ -524,7 +638,7 @@ Abstract Class Lumber {
         $required = ( $attr['req'] == true ) ? ' required ' : null;
         $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        foreach( $field['options'] as $k => $v ) {
+        foreach( $attr['options'] as $k => $v ) {
 
             $key = sanitize_title( $k );
             $id = $attr['id'] . '_' . $key;
@@ -534,7 +648,7 @@ Abstract Class Lumber {
             if ( is_array( $v ) ){
                 $title = $v['title'];
 
-                if ( ! empty( $field['value'] ) && array_key_exists( $v['id'], $field['value'] ) ){
+                if ( ! empty( $attr['value'] ) && array_key_exists( $v['id'], $attr['value'] ) ){
                     $checked = "checked=check";
                 } else {
                     $checked = null;
@@ -542,7 +656,7 @@ Abstract Class Lumber {
 
             } else {
                 $title = $v;
-                if ( ! empty( $field['value'] ) && in_array( $key, $field['value'] ) ){
+                if ( ! empty( $attr['value'] ) && in_array( $key, $attr['value'] ) ){
                     $checked = "checked=check";
                 } else {
                     $checked = null;
@@ -553,35 +667,36 @@ Abstract Class Lumber {
             $options .= '<label for="' . $id . '">' . $title . $required_html . '</label><br />';
         }
 
-        $html  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $html .= $options;
-        $html .= $attr['desc'];
-        $html .= '</p>';
+        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field .= $options;
+        $field .= $attr['desc'];
+        $field .= '</p>';
 
         if ( $attr['echo'] )
-            echo $html;
+            echo $field;
         else
-            return $html;
+            return $field;
     }
 
 
     /**
+     * Creates a WordPress Media Upload field
      *
-     * @since 1.0
+     * @since 1.0.0
      *
-     * doUpload( $field=array(), $current_form=null, $value=null
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doUpload( $field=array(), $current_form=null ){
+    public function doUpload( $attr=array(), $current_form=null ){
 
         wp_enqueue_media();
-        // wp_enqueue_script( 'custom-header' );
-
         wp_enqueue_script( 'zm-form-fields-upload',
             $this->getBaseDirUrl() . 'assets/javascripts/scripts.js', array('jquery') );
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
         $value = empty( $attr['current_value'] ) ? intval( $attr['value'] ) : intval( $attr['current_value'] );
 
@@ -593,91 +708,106 @@ Abstract Class Lumber {
             $image = null;
         }
 
-        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
-
-
-        $row .= '<span class="zm-form-fields-upload-container">';
-        $row .= '<a href="#" class="button zm-form-fields-media-upload-handle" style="margin-bottom: 10px;">' . __('Upload', 'zm_alr_pro') . '</a><br />';
-        $row .= '<span class="zm-form-fields-upload-image-container" ' . $style . '>';
-        $row .= $image;
-        $row .= '</span>';
-        $row .= '<br /><a href="#" class="zm-form-fields-upload-remove-handle" ' . $style . '>' . __('Remove', 'zm_alr_pro_settings') . '</a>';
-        $row .= '<input type="hidden" class="zm-form-fields-upload-attachment-id" id="'.$attr['id'].'" name="' . $attr['name'] . '" value="' . $attr['value'] . '"/>';
-        $row .= '</span>';
-        $row .= '<br />' . $attr['desc'];
-
-        $row .= '</p>';
-
-
+        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
+        $field .= '<span class="zm-form-fields-upload-container">';
+        $field .= '<a href="#" class="button zm-form-fields-media-upload-handle" style="margin-bottom: 10px;">' . __('Upload', 'zm_alr_pro') . '</a><br />';
+        $field .= '<span class="zm-form-fields-upload-image-container" ' . $style . '>';
+        $field .= $image;
+        $field .= '</span>';
+        $field .= '<br /><a href="#" class="zm-form-fields-upload-remove-handle" ' . $style . '>' . __('Remove', 'zm_alr_pro_settings') . '</a>';
+        $field .= '<input type="hidden" class="zm-form-fields-upload-attachment-id" id="'.$attr['id'].'" name="' . $attr['name'] . '" value="' . $attr['value'] . '"/>';
+        $field .= '</span>';
+        $field .= '<br />' . $attr['desc'];
+        $field .= '</p>';
 
         if ( $attr['echo'] )
-            echo $row;
+            echo $field;
         else
-            return $row;
+            return $field;
     }
 
 
     /**
+     * Creates an arbitrary HTML field
      *
-     * @since 1.0
+     * @since 1.0.0
      *
-     * doHtml( $field=null, $current_form=null
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
      *
-     * @return
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
     public function doHtml( $field=null, $current_form=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
-        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
-        $row .= $attr['std'];
-        $row .= '</p>';
+        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
+        $field .= $attr['std'];
+        $field .= '</p>';
 
         if ( $attr['echo'] )
-            echo $row;
+            echo $field;
         else
-            return $row;
+            return $field;
     }
 
 
     /**
+     * Creates a WordPress Thickbox HTML field
      *
-     * @since 1.0
+     * @since 1.0.0
      *
-     * doThickbox( $field=null, $current_form=null, $value=null
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     *
      * @uses add_thickbox() http://codex.wordpress.org/ThickBox
      * @uses add_query_arg() http://codex.wordpress.org/Function_Reference/add_query_arg
      * @uses esc_url() http://codex.wordpress.org/Function_Reference/esc_url
-     * @return
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doThickbox( $field=null, $current_form=null ){
+    public function doThickbox( $attr=null, $current_form=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+        $attr = $this->getAttributes( $attr, $current_form );
 
         add_thickbox();
 
-        $row  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
-        $row .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
-        $row .= '<a href="' . add_query_arg( array(
+        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
+        $field .= '<a href="' . add_query_arg( array(
             'TB_iframe' => 'true',
             'width' => '600',
             'height' => '550'
             ), esc_url( $attr['std'] ) ) . '" class="thickbox">' . $attr['placeholder'] . '</a>';
-        $row .= '</p>';
+        $field .= '</p>';
 
         if ( $attr['echo'] )
-            echo $row;
+            echo $field;
         else
-            return $row;
+            return $field;
     }
 
 
-    // @todo finish this one
-    public function doTouchtime( $field=null, $current_form=null ){
 
-        $attr = $this->getAttributes( $field, $current_form );
+    /**
+     * Builds an group of select fields to be used for date time
+     *
+     * @since  1.0
+     *
+     * @param  $field          (array)  The field containing an array of values
+     * @param  $current_form   (string) Given post type
+     *
+     * @return $field           (mixed)  The HTML attribute, or prints
+     */
+    public function doTouchtime( $attr=null, $current_form=null ){
+
+        $attr = $this->getAttributes( $attr, $current_form );
 
         global $wp_locale;
 
@@ -721,16 +851,16 @@ Abstract Class Lumber {
 
 
         // Final HTML
-        $html  = '<p class="' . $attr['row_class'] . ' zm-form-touch-time" id="' . $attr['row_id'] . '">';
+        $field  = '<p class="' . $attr['row_class'] . ' zm-form-touch-time" id="' . $attr['row_id'] . '">';
         /* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
-        $html .= sprintf( '%1$s %2$s, %3$s @ %4$s : %5$s', $month, $day, $year, $hour, $minute );
-        $html .= '<span class="desc">'  . $attr['desc'] . '</span>';
-        $html .= '</p>';
+        $field .= sprintf( '%1$s %2$s, %3$s @ %4$s : %5$s', $month, $day, $year, $hour, $minute );
+        $field .= '<span class="desc">'  . $attr['desc'] . '</span>';
+        $field .= '</p>';
 
         if ( $attr['echo'] ){
-            echo $html;
+            echo $field;
         } else {
-            return $html;
+            return $field;
         }
     }
 
@@ -738,14 +868,12 @@ Abstract Class Lumber {
     /**
      * Builds an array of all possible HTML attributes for a given form field.
      *
-     * @since   1.0
+     * @since   1.0.0
      *
-     * @param   $field (array) The field containing an array of values
-     * @param   $current_form (string) Given post type
+     * @param   $field          (array)     The field containing an array of values
+     * @param   $current_form   (string)    Given post type
      *
-     * @todo    use wp_parse_args()
-     *
-     * @return  HTML attributes for a given form field.
+     * @return  $attr           (array)     The attributes
      */
     public function getAttributes( $field=null, $current_form=null ){
 
@@ -787,7 +915,12 @@ Abstract Class Lumber {
      * Gets an array of all the available form fields. Containing
      * id, type, title, etc.
      *
-     * @since 1.0
+     * @since 1.0.0
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
      *
      * @return An array of all available fields.
      */
@@ -827,27 +960,31 @@ Abstract Class Lumber {
      * Sets up an empty array to retrieve all available forms
      * via a filter.
      *
-     * @since 1.0
+     * @since 1.0.0
      *
      * @return  An array of all available forms
      */
     public function getForms(){
+
         return apply_filters( 'zm_form_add_new', array() );
+
     }
 
 
     /**
      * Get our meta values for a given post_type
      *
-     * @since   1.0
+     * @since   1.0.0
      *
-     * @param   $post_id The post id.
-     * @param   $key The key to retrieve the value for.
+     * @param   $post_id    (int)    The post id.
+     * @param   $key        (string) The key to retrieve the value for.
      *
-     * @return
+     * @return  $meta       (array)  The values for a given meta field
      */
     public function getValues( $post_id=null, $key=null ){
+
         $post_meta = get_post_meta( $post_id, '_zm_form_meta', true );
+
         if ( empty( $key ) ){
             $meta = apply_filters( 'zm_forms_meta_values', $post_meta, $post_id );
         } else {
@@ -861,10 +998,10 @@ Abstract Class Lumber {
     /**
      * Builds the markup needed for each form field based on the field type.
      *
-     * @since   1.0
+     * @since   1.0.0
      *
-     * @param   $post_id The post id
-     * @param   $current_form The form, i.e., post type
+     * @param   $post_id        (int)    The post id.
+     * @param   $current_form   (string) The key to retrieve the value for.
      *
      * @todo    Move this switch to its on method of available field types.
      *
@@ -875,13 +1012,18 @@ Abstract Class Lumber {
         $meta = $this->getValues( $post_id );
 
         $my_fields = $this->getFields();
-        $html = null;
+        $field = null;
 
         foreach( $my_fields as $form => $fields ){
+
             if ( $current_form == $form ){
+
                 if ( empty( $fields ) ){
-                    $html .= 'Using defaults';
+
+                    $field .= 'Using defaults';
+
                 } else {
+
                     foreach( $fields as $field ) :
 
                         // Set default value
@@ -894,84 +1036,83 @@ Abstract Class Lumber {
                             $field['value'] = $meta[ $field['id'] ];
                         }
 
-
                         switch( $field['type'] ) {
 
                             case 'select' :
-                                $html .= $this->doSelect( $field, $current_form );
+                                $field .= $this->doFancySelect( $field, $current_form );
                                 break;
 
                             case 'multiselect' :
-                                $html .= $this->doMultiselect( $field, $current_form );
+                                $field .= $this->doMultiselect( $field, $current_form );
                                 break;
 
                             case 'us_state' :
-                                $html .= $this->doUsStateSelect( $field, $current_form );
+                                $field .= $this->doUsStateSelect( $field, $current_form );
                                 break;
 
                             case 'textarea' :
                             case 'textarea_email_template' :
-                                $html .= $this->doTextarea( $field, $current_form );
+                                $field .= $this->doTextarea( $field, $current_form );
                                 break;
 
                             case 'textarea_emails' :
-                                $html .= $this->doEmails( $field, $current_form );
+                                $field .= $this->doEmails( $field, $current_form );
                                 break;
 
                             case 'open_fieldset' :
-                                $html .= $this->doOpenFieldset( $field, $current_form );
+                                $field .= $this->doOpenFieldset( $field, $current_form );
                                 break;
 
                             case 'end_fieldset' :
-                                $html .= $this->doEndFieldset();
+                                $field .= $this->doEndFieldset();
                                 break;
 
                             case 'open_section' :
-                                $html .= $this->doOpenSection( $field, $current_form );
+                                $field .= $this->doOpenSection( $field, $current_form );
                                 break;
 
                             case 'end_section' :
-                                $html .= $this->doEndSection();
+                                $field .= $this->doEndSection();
                                 break;
 
                             case 'checkbox' :
-                                $html .= $this->doCheckbox( $field, $current_form );
+                                $field .= $this->doCheckbox( $field, $current_form );
                                 break;
 
                             case 'checkboxes' :
-                                $html .= $this->doCheckboxes( $field, $current_form );
+                                $field .= $this->doCheckboxes( $field, $current_form );
                                 break;
 
                             case 'radio' :
-                                $html .= $this->doRadio( $field, $current_form );
+                                $field .= $this->doRadio( $field, $current_form );
                                 break;
 
                             case 'hidden' :
-                                $html .= $this->doHidden( $field, $current_form );
+                                $field .= $this->doHidden( $field, $current_form );
                                 break;
 
                             case 'upload' :
-                                $html .= $this->doUpload( $field, $current_form );
+                                $field .= $this->doUpload( $field, $current_form );
                                 break;
 
                             case 'html' :
-                                $html .= $this->doHtml( $field, $current_form );
+                                $field .= $this->doHtml( $field, $current_form );
                                 break;
 
                             case 'thickbox_url' :
-                                $html .= $this->doThickbox( $field, $current_form );
+                                $field .= $this->doThickbox( $field, $current_form );
                                 break;
 
                             case 'email' :
-                                $html .= $this->doEmail( $field, $current_form );
+                                $field .= $this->doEmail( $field, $current_form );
                                 break;
 
                             case 'touchtime' :
-                                $html .= $this->doTouchtime( $field, $current_form );
+                                $field .= $this->doTouchtime( $field, $current_form );
                                 break;
 
                             default:
-                                $html .= $this->doFancyText( $field, $current_form );
+                                $field .= $this->doFancyText( $attr, $current_form );
                                 break;
                         }
 
@@ -979,7 +1120,9 @@ Abstract Class Lumber {
                 }
             }
         }
-        return $html;
+
+        return $field;
+
     }
 
 
@@ -991,7 +1134,7 @@ Abstract Class Lumber {
      * array( 'first_name' ); to
      * array( 'first_name' => array( 'type' => 'text', 'id' => etc. ) )
      *
-     * @since 1.0
+     * @since 1.0.0
      *
      * @param   $meta The meta fields we are merging with
      * @param   $current_form The current form, i.e., post type
@@ -1018,14 +1161,14 @@ Abstract Class Lumber {
     /**
      * Saves ALL post meta to a single serialized value "_zm_form_meta"
      *
-     * @since 1.0
+     * @since 1.0.0
      *
      * @param    $post_id The post id
      * @param    $meta The values being saved
      * @param    $current_form The post type of the form or a unique key. This
      *           is only used for the available hooks.
      *
-     * @return
+     * @return  $post_id (mixed)    Post ID on success false on failure
      */
     public function saveMeta( $post_id=null, $meta=null, $current_form=null ){
         $formatted_meta = $this->getFormattedMeta( $meta, $current_form );
@@ -1070,7 +1213,7 @@ Abstract Class Lumber {
     /**
      * Sanitize form a form field value.
      *
-     * @since 1.0
+     * @since 1.0.0
      *
      * @param   $type The field type being sanitized, i.e., text, radio, checkbox, etc.
      *          see getMetaFieldsHtml() for full list.
@@ -1129,8 +1272,10 @@ Abstract Class Lumber {
      * emails and returns all the emails separated by a new line. For
      * use in a textarae.
      *
-     * @since 1.1
+     * @since 1.0.0
+     *
      * @param $emails An array of emails to validate
+     *
      * @return Validated emails separated by a new line (for use in a textarea)
      */
     public function sanitizeValidateEmails( $emails=null ){
@@ -1151,8 +1296,10 @@ Abstract Class Lumber {
      * Takes everything that is in our textarea and creates an array
      * based on new lines and blank spaces.
      *
-     * @since 1.1
+     * @since 1.0.0
+     *
      * @param $input (string) The input being saved
+     *
      * @return Sanitized email addresses that are separated by a blank line.
      */
     public function sanitizeEmails( $input ){
@@ -1189,6 +1336,17 @@ Abstract Class Lumber {
     }
 
 
+    /**
+     * Determines if a value is numeric and between the min, max value if set.
+     *
+     * @since 1.0.0
+     *
+     * @param $field    (array) The field
+     * @param $min      (int)   The min value
+     * @param $max      (int)   The max value
+     *
+     * @return $field   (array)
+     */
     public function sanitizeNumber( $field=null, $min=null, $max=null ){
 
         $value = trim( $field['value'] );
@@ -1202,31 +1360,55 @@ Abstract Class Lumber {
         } elseif ( $value < $min ){
             $field['error'] = 'too small';
         } else {
-
+            $field['error'] = false;
         }
 
         return $field;
     }
 
 
+    /**
+     * Default sanitize
+     *
+     * @since 1.0.0
+     * @param $value (array)   The value to sanitize
+     *
+     * @return Sanitized value
+     */
     public function sanitizeDefault( $value=null ){
+
         return esc_attr( $value );
+
     }
 
 
+    /**
+     * Allows for sanitizing over an array of values
+     *
+     * @since 1.0.0
+     * @param $value (array)   The value to sanitize
+     *
+     * @return
+     */
     public function sanitizeMultiselect( $value=null ){
+
         $tmp = array();
         foreach( $value as $v ){
             $tmp[] = $this->sanitizeDefault( $v );
         }
+
         return $tmp;
+
     }
 
 
     /**
      * Validate the comment from a string. A valid comment starts with "//"
      *
+     * @since 1.0.0
+     *
      * @param (string)$value The value we want to sanitize
+     *
      * @return The comment if valid, otherwise false
      */
     public function sanitizeForwardComments( $value=null ){
@@ -1281,7 +1463,10 @@ Abstract Class Lumber {
     /**
      * Validate an IP address
      *
+     * @since 1.0.0
+     *
      * @param $ip An IP address to validate
+     *
      * @return Valid IP
      */
     public function sanitizeIp( $ip=null ){
@@ -1290,20 +1475,28 @@ Abstract Class Lumber {
     }
 
 
+    /**
+     *
+     * @since 1.0.0
+     * @param
+     *
+     * @return
+     */
     public function sanitizeTouchtime( $value=null ){
+
         return $value;
+
     }
 
 
     /**
      * Prints the meta fields, i.e., form fields
      *
-     * @since   1.0
+     * @since   1.0.0
      * @uses    getMetaFieldsHtml()
      * @param   $post (object) The global post object
-     * @todo    Move in-line CSS to style sheet?
      *
-     * @return
+     * @return  Displays the meta fields
      */
     public function metaFields( $post ){ ?>
         <?php wp_nonce_field( 'zm_form_meta_box', 'zm_form_meta_box_nonce' ); ?>
@@ -1311,8 +1504,18 @@ Abstract Class Lumber {
     <?php }
 
 
+    /**
+     * Filter the base URL
+     *
+     * @since 1.0.0
+     * @param
+     *
+     * @return The base URL
+     */
     public function getBaseDirUrl(){
+
         return apply_filters( 'lumber_dir_url', plugin_dir_url( __FILE__ ) );
+
     }
 }
 endif;
