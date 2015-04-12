@@ -259,8 +259,8 @@ Abstract Class Lumber {
         $id = ( empty( $field['id'] ) ) ? null : $field['id'];
         $id = sanitize_title( $id );
 
-        $field = '<div class="' . $attr['row_class'] . ' zm-form-open-fieldset" id="zm_form_open_fieldset_' . $field['id'] . '">';
-        $field .= '<fieldset id="zm_form_' . $current_form . '_' . $id . '_fieldset"><legend>' . $title . '</legend>';
+        $field = '<div class="' . $attr['row_class'] . ' lumber-form-open-fieldset" id="lumber_form_open_fieldset_' . $field['id'] . '">';
+        $field .= '<fieldset id="lumber_form_' . $current_form . '_' . $id . '_fieldset"><legend>' . $title . '</legend>';
 
         return $field;
 
@@ -295,7 +295,7 @@ Abstract Class Lumber {
 
         $attr = $this->getAttributes( $attr );
 
-        $field = '<div class="' . $attr['row_class'] . ' open-section" id="zm_form_' . $field['id'] . '_section">';
+        $field = '<div class="' . $attr['row_class'] . ' open-section" id="lumber_form_' . $field['id'] . '_section">';
 
         if ( $attr['echo'] )
             echo $field;
@@ -693,7 +693,7 @@ Abstract Class Lumber {
     public function doUpload( $attr=array(), $current_form=null ){
 
         wp_enqueue_media();
-        wp_enqueue_script( 'zm-form-fields-upload',
+        wp_enqueue_script( 'lumber-form-fields-upload',
             $this->getBaseDirUrl() . 'assets/javascripts/scripts.js', array('jquery') );
 
         $attr = $this->getAttributes( $attr, $current_form );
@@ -710,13 +710,13 @@ Abstract Class Lumber {
 
         $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
-        $field .= '<span class="zm-form-fields-upload-container">';
-        $field .= '<a href="#" class="button zm-form-fields-media-upload-handle" style="margin-bottom: 10px;">' . __('Upload', 'zm_alr_pro') . '</a><br />';
-        $field .= '<span class="zm-form-fields-upload-image-container" ' . $style . '>';
+        $field .= '<span class="lumber-form-fields-upload-container">';
+        $field .= '<a href="#" class="button lumber-form-fields-media-upload-handle" style="margin-bottom: 10px;">' . __('Upload', 'lumber_alr_pro') . '</a><br />';
+        $field .= '<span class="lumber-form-fields-upload-image-container" ' . $style . '>';
         $field .= $image;
         $field .= '</span>';
-        $field .= '<br /><a href="#" class="zm-form-fields-upload-remove-handle" ' . $style . '>' . __('Remove', 'zm_alr_pro_settings') . '</a>';
-        $field .= '<input type="hidden" class="zm-form-fields-upload-attachment-id" id="'.$attr['id'].'" name="' . $attr['name'] . '" value="' . $attr['value'] . '"/>';
+        $field .= '<br /><a href="#" class="lumber-form-fields-upload-remove-handle" ' . $style . '>' . __('Remove', 'lumber_alr_pro_settings') . '</a>';
+        $field .= '<input type="hidden" class="lumber-form-fields-upload-attachment-id" id="'.$attr['id'].'" name="' . $attr['name'] . '" value="' . $attr['value'] . '"/>';
         $field .= '</span>';
         $field .= '<br />' . $attr['desc'];
         $field .= '</p>';
@@ -851,7 +851,7 @@ Abstract Class Lumber {
 
 
         // Final HTML
-        $field  = '<p class="' . $attr['row_class'] . ' zm-form-touch-time" id="' . $attr['row_id'] . '">';
+        $field  = '<p class="' . $attr['row_class'] . ' lumber-form-touch-time" id="' . $attr['row_id'] . '">';
         /* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
         $field .= sprintf( '%1$s %2$s, %3$s @ %4$s : %5$s', $month, $day, $year, $hour, $minute );
         $field .= '<span class="desc">'  . $attr['desc'] . '</span>';
@@ -892,10 +892,10 @@ Abstract Class Lumber {
             'name'        => '_' . $current_form . '_form[meta]['.$field_id.']', // Other people can override the name, by passing it in with the field
             'placeholder' => null,
             'row_class'   => ( empty( $field['extra_class'] ) )
-            ? 'zm-form-default-row'
-            : 'zm-form-default-row ' . $field['extra_class'],
+            ? 'lumber-form-default-row'
+            : 'lumber-form-default-row ' . $field['extra_class'],
             'field_class' => 'large-text',
-            'row_id'      => 'zm_form_' . $current_form . '_' . $field_id . '_row',
+            'row_id'      => 'lumber_form_' . $current_form . '_' . $field_id . '_row',
             'id'          => $current_form . '_' . $field_id,
             'req'         => null,
             'desc'        => empty( $field['desc'] ) ? null : '<span class="description">' . $field['desc'] . '</span>',
@@ -966,7 +966,7 @@ Abstract Class Lumber {
      */
     public function getForms(){
 
-        return apply_filters( 'zm_form_add_new', array() );
+        return apply_filters( 'lumber_form_add_new', array() );
 
     }
 
@@ -983,10 +983,10 @@ Abstract Class Lumber {
      */
     public function getValues( $post_id=null, $key=null ){
 
-        $post_meta = get_post_meta( $post_id, '_zm_form_meta', true );
+        $post_meta = get_post_meta( $post_id, '_lumber_form_meta', true );
 
         if ( empty( $key ) ){
-            $meta = apply_filters( 'zm_forms_meta_values', $post_meta, $post_id );
+            $meta = apply_filters( 'lumber_forms_meta_values', $post_meta, $post_id );
         } else {
             $meta = empty( $post_meta[ $key ] ) ? null : $post_meta[ $key ];
         }
@@ -1159,7 +1159,7 @@ Abstract Class Lumber {
 
 
     /**
-     * Saves ALL post meta to a single serialized value "_zm_form_meta"
+     * Saves ALL post meta to a single serialized value "_lumber_form_meta"
      *
      * @since 1.0.0
      *
@@ -1199,11 +1199,11 @@ Abstract Class Lumber {
             }
         }
 
-        $sanitized = apply_filters( 'zm_form_' . $current_form . '_sanitized_meta', $sanitized );
-        $post_id = apply_filters( 'zm_form_' . $current_form . '_before_save_meta', $post_id, $meta );
+        $sanitized = apply_filters( 'lumber_form_' . $current_form . '_sanitized_meta', $sanitized );
+        $post_id = apply_filters( 'lumber_form_' . $current_form . '_before_save_meta', $post_id, $meta );
         if ( $post_id !== false ){
             // http://codex.wordpress.org/Function_Reference/sanitize_meta
-            update_post_meta( $post_id, '_zm_form_meta', $sanitized );
+            update_post_meta( $post_id, '_lumber_form_meta', $sanitized );
         }
 
         return $post_id;
@@ -1261,7 +1261,7 @@ Abstract Class Lumber {
         }
 
         // sanitize by id
-        // $value = apply_filters( 'zm_form_sanitize_' . $current_form . '_' . $field['id'], $value );
+        // $value = apply_filters( 'lumber_form_sanitize_' . $current_form . '_' . $field['id'], $value );
 
         return $value;
     }
@@ -1499,7 +1499,7 @@ Abstract Class Lumber {
      * @return  Displays the meta fields
      */
     public function metaFields( $post ){ ?>
-        <?php wp_nonce_field( 'zm_form_meta_box', 'zm_form_meta_box_nonce' ); ?>
+        <?php wp_nonce_field( 'lumber_form_meta_box', 'lumber_form_meta_box_nonce' ); ?>
         <?php echo $this->getMetaFieldsHtml( $post->ID, $post->post_type ); ?>
     <?php }
 
