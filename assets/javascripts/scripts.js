@@ -1,36 +1,36 @@
 jQuery( document ).ready(function( $ ){
 
 
-    $('.zm-form-fields-upload-remove-handle').on('click', function( e ){
+    $('.lumber-form-fields-upload-remove-handle').on('click', function( e ){
         e.preventDefault();
 
-        var $parent = $(this).parent('.zm-form-fields-upload-container');
+        var $parent = $(this).parent('.lumber-form-fields-upload-container');
 
-        $( '.zm-form-fields-upload-attachment-id', $parent ).val( '' );
-        $( '.zm-form-fields-upload-image-container', $parent ).empty();
+        $( '.lumber-form-fields-upload-attachment-id', $parent ).val( '' );
+        $( '.lumber-form-fields-upload-image-container', $parent ).empty();
         // $( this ).hide();
     });
 
 
-    $('.zm-form-fields-media-upload-handle').on('click', function( e ){
+    $('.lumber-form-fields-media-upload-handle').on('click', function( e ){
 
         e.preventDefault();
 
-        var zm_alr_pro_upload_frame;
-        var zm_alr_pro_upload = {};
-        var $parent = $(this).parent('.zm-form-fields-upload-container');
+        var lumber_alr_pro_upload_frame;
+        var lumber_alr_pro_upload = {};
+        var $parent = $(this).parent('.lumber-form-fields-upload-container');
 
         // If the frame already exists, open it.
-        if ( zm_alr_pro_upload_frame ) {
-            zm_alr_pro_upload_frame.open();
+        if ( lumber_alr_pro_upload_frame ) {
+            lumber_alr_pro_upload_frame.open();
             return;
         }
 
         // Create the media frame.
-        zm_alr_pro_upload_frame = wp.media.frames.zm_alr_pro_upload_frame = wp.media({
+        lumber_alr_pro_upload_frame = wp.media.frames.lumber_alr_pro_upload_frame = wp.media({
 
             // We can pass in a custom class name to our frame.
-            className: 'media-frame zm-form-fields-upload-extended-frame',
+            className: 'media-frame lumber-form-fields-upload-extended-frame',
 
             // Frame type ('select' or 'post').
             frame: 'select',
@@ -39,7 +39,7 @@ jQuery( document ).ready(function( $ ){
             multiple: false,
 
             // Custom frame title.
-            title: zm_alr_pro_upload.title,
+            title: lumber_alr_pro_upload.title,
 
             // Media type allowed.
             // library: {
@@ -48,20 +48,20 @@ jQuery( document ).ready(function( $ ){
 
             // Custom "insert" button.
             button: {
-                text:  zm_alr_pro_upload.button
+                text:  lumber_alr_pro_upload.button
             }
 
         });
 
         // Do stuff with the data when an image has been selected.
-        zm_alr_pro_upload_frame.on( 'select',
+        lumber_alr_pro_upload_frame.on( 'select',
 
             function() {
 
                 // Construct a JSON representation of the model.
-                var media_attachment = zm_alr_pro_upload_frame.state().get( 'selection' ).first().toJSON();
+                var media_attachment = lumber_alr_pro_upload_frame.state().get( 'selection' ).first().toJSON();
 
-                $( '.zm-form-fields-upload-attachment-id', $parent ).val( media_attachment.id );
+                $( '.lumber-form-fields-upload-attachment-id', $parent ).val( media_attachment.id );
 
                 if ( ! $.inArray( media_attachment.mime, ["image/png"], ["image/jpg"], ["image/jpeg"] ) ){
                     thumb = media_attachment.sizes.thumbnail.url;
@@ -69,16 +69,16 @@ jQuery( document ).ready(function( $ ){
                     thumb = media_attachment.icon;
                 }
 
-                $( '.zm-form-fields-upload-image-container', $parent ).empty();
-                $( '.zm-form-fields-upload-image-container', $parent ).append('<img src="'+thumb+'" style="border:1px solid #ddd;"/>');
-                $( '.zm-form-fields-upload-image-container', $parent ).show();
+                $( '.lumber-form-fields-upload-image-container', $parent ).empty();
+                $( '.lumber-form-fields-upload-image-container', $parent ).append('<img src="'+thumb+'" style="border:1px solid #ddd;"/>');
+                $( '.lumber-form-fields-upload-image-container', $parent ).show();
 
-                $( '.zm-form-fields-upload-remove-handle' ).show();
+                $( '.lumber-form-fields-upload-remove-handle' ).show();
             }
         );
 
         // Open up the frame.
-        zm_alr_pro_upload_frame.open();
+        lumber_alr_pro_upload_frame.open();
 
     });
 });
