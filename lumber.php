@@ -527,6 +527,104 @@ Abstract Class Lumber {
 
 
     /**
+     * Creates a select field with Mexico states as values
+     *
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doMexicoStateSelect( $attr=array(), $current_form=null ){
+
+        $states = array(
+            'AGS' => 'Aguascalientes',
+            'BCN' => 'Baja California Norte',
+            'BCS' => 'Baja California Sur',
+            'CAM' => 'Campeche',
+            'CHIS' => 'Chiapas',
+            'CHIH' => 'Chihuahua',
+            'COAH' => 'Coahuila',
+            'COL' => 'Colima',
+            'DF' => 'Distrito Federal',
+            'DGO' => 'Durango',
+            'GTO' => 'Guanajuato',
+            'GRO' => 'Guerrero',
+            'HGO' => 'Hidalgo',
+            'JAL' => 'Jalisco',
+            'EDM' => 'México - Estado de',
+            'MICH' => 'Michoacán',
+            'MOR' => 'Morelos',
+            'NAY' => 'Nayarit',
+            'NL' => 'Nuevo León',
+            'OAX' => 'Oaxaca',
+            'PUE' => 'Puebla',
+            'QRO' => 'Querétaro',
+            'QROO' => 'Quintana Roo',
+            'SLP' => 'San Luis Potosí',
+            'SIN' => 'Sinaloa',
+            'SON' => 'Sonora',
+            'TAB' => 'Tabasco',
+            'TAMPS' => 'Tamaulipas',
+            'TLAX' => 'Tlaxcala',
+            'VER' => 'Veracruz',
+            'YUC' => 'Yucatán',
+            'ZAC' => 'Zacatecas)'
+        );
+
+
+        $attr = $this->getAttributes( $attr, $current_form );
+        $attr['options'] = $states;
+
+        $field = $this->doFancySelect( $attr, $current_form );
+
+        if ( $attr['echo'] )
+            echo $field;
+        else
+            return $field;
+    }
+
+
+    /**
+     * Creates a select field with Mexico states as values
+     *
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doCanadaStateSelect( $attr=array(), $current_form=null ){
+
+        $states = array(
+            'AB' => 'Alberta',
+            'BC' => 'British Columbia',
+            'MB' => 'Manitoba',
+            'NB' => 'New Brunswick',
+            'NL' => 'Newfoundland and Labrador',
+            'NT' => 'Northwest Territories',
+            'NS' => 'Nova Scotia',
+            'NU' => 'Nunavut',
+            'PE' => 'Prince Edward Island',
+            'SK' => 'Saskatchewan',
+            'ON' => 'Ontario',
+            'QC' => 'Quebec',
+            'YT' => 'Yukon'
+        );
+
+        $attr = $this->getAttributes( $attr, $current_form );
+        $attr['options'] = $states;
+
+        $field = $this->doFancySelect( $attr, $current_form );
+
+        if ( $attr['echo'] )
+            echo $field;
+        else
+            return $field;
+    }
+
+
+    /**
      * Creates a textarea HTML input field
      *
      * @since 1.0.0
