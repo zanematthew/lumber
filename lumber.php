@@ -22,11 +22,13 @@ Abstract Class Lumber {
      *                                      used in the field
      * @param $current_form     (string)    The current form this field is relevant to
      * @param $type             (string)    The input type, must be a relevant HTML input type
+     * @param $force_return     (bool)      Forces the field to be returned, even if the attr value
+     *                                      is set to echo it.
      * @param $disabled         (string)    If the field should use the HTML disabled attribute
      *
      * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doText( $attr=null, $current_form=null, $type=null, $disabled=null ){
+    public function doText( $attr=null, $current_form=null, $type=null, $force_return=null, $disabled=null ){
 
         $attr = $this->getAttributes( $attr, $current_form );
 
@@ -46,7 +48,7 @@ Abstract Class Lumber {
         class="' . $attr['field_class'] .'"
         />';
 
-        if ( $attr['echo'] )
+        if ( $attr['echo'] && ! $force_return )
             echo $field;
         else
             return $field;
@@ -72,11 +74,11 @@ Abstract Class Lumber {
         $required = ( $attr['req'] == true ) ? ' required ' : null;
         $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
         $type = empty( $type ) ? 'text' : $type;
-        $disabled = empty( $disabled ) ? '' : 'disabled';
+        $disabled = empty( $disabled ) ? false : true;
 
         $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
-        $field .= $this->doText( $attr, $current_form, $type, $disabled );
+        $field .= $this->doText( $attr, $current_form, $type, true, $disabled );
         $field .= $attr['desc'];
         $field .= '</p>';
 
@@ -324,10 +326,11 @@ Abstract Class Lumber {
      * @param $attr             (array)     An array containing the HTML attributes to be
      *                                      used in the field
      * @param $current_form     (string)    The current form this field is relevant to
-     *
+     * @param $force_return     (bool)      Forces the field to be returned, even if the attr value
+     *                                      is set to echo it.
      * @return $field           (mixed)     The HTML attribute, or prints
      */
-    public function doSelect( $attr=array(), $current_form=null ){
+    public function doSelect( $attr=array(), $current_form=null, $force_return=null ){
 
         $attr = $this->getAttributes( $attr, $current_form );
 
@@ -350,7 +353,7 @@ Abstract Class Lumber {
         $field .= $options;
         $field .= '</select>';
 
-        if ( $attr['echo'] )
+        if ( $attr['echo'] && ! $force_return )
             echo $field;
         else
             return $field;
@@ -380,10 +383,10 @@ Abstract Class Lumber {
 
         $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label> ';
+        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label> ';
 
-        $field .= $this->doSelect( $attr, $current_form );
-
+        $field .= $this->doSelect( $attr, $current_form, true );
         $field .= $attr['desc'];
         $field .= '</p>';
 
