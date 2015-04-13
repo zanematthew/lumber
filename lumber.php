@@ -839,7 +839,7 @@ Abstract Class Lumber {
      */
     public function doHtml( $field=null, $current_form=null ){
 
-        $attr = $this->getAttributes( $attr, $current_form );
+        $attr = $this->getAttributes( $field, $current_form );
 
         $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
