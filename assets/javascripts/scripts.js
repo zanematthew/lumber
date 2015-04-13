@@ -63,7 +63,7 @@ jQuery( document ).ready(function( $ ){
 
                 $( '.lumber-form-fields-upload-attachment-id', $parent ).val( media_attachment.id );
 
-                if ( ! $.inArray( media_attachment.mime, ["image/png"], ["image/jpg"], ["image/jpeg"] ) ){
+                if ( $.inArray( media_attachment.mime, ["image/png", "image/jpg", "image/jpeg"] ) !== -1 ){
                     thumb = media_attachment.sizes.thumbnail.url;
                 } else {
                     thumb = media_attachment.icon;
