@@ -76,11 +76,11 @@ Abstract Class Lumber {
         $type = empty( $type ) ? 'text' : $type;
         $disabled = empty( $disabled ) ? false : true;
 
-        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label>';
         $field .= $this->doText( $attr, $current_form, $type, true, $disabled );
-        $field .= $attr['desc'];
-        $field .= '</p>';
+        $field .= '<p class="description">' . $attr['desc'] . '</p>';
+        $field .= '</div>';
 
         if ( $attr['echo'] )
             echo $field;
@@ -233,10 +233,10 @@ Abstract Class Lumber {
             $options .= '<label for="' . $id . '">' . $v . $required_html . '</label><br />';
         }
 
-        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $field .= $options;
-        $field .= $attr['desc'];
-        $field .= '</p>';
+        $field .= '<p class="description">' . $attr['desc'] . '</p>';
+        $field .= '</div>';
 
         if ( $attr['echo'] )
             echo $field;
@@ -383,12 +383,12 @@ Abstract Class Lumber {
 
         $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . $required_html . '</label> ';
 
         $field .= $this->doSelect( $attr, $current_form, true );
-        $field .= $attr['desc'];
-        $field .= '</p>';
+        $field .= '<p class="description">' . $attr['desc'] . '</p>';
+        $field .= '</div>';
 
         if ( $attr['echo'] )
             echo $field;
@@ -437,12 +437,12 @@ Abstract Class Lumber {
                 $options .= '<option value="' . $k . '" ' . $selected . '>' . $v . '</option>';
             }
 
-            $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label> ';
+            $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label> ';
             $field .= '<select name="' . $attr['name'] . '[]" multiple id="' . $attr['id'] . '">';
             $field .= $options;
             $field .= '</select>';
-            $field .= $attr['desc'];
-            $field .= '</p>';
+            $field .= '<p class="description">' . $attr['desc'] . '</p>';
+            $field .= '</div>';
         }
 
         if ( $attr['echo'] )
@@ -641,10 +641,10 @@ Abstract Class Lumber {
 
         $attr = $this->getAttributes( $attr, $current_form );
 
-        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
+        $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
         $field .= '<textarea id="' . $attr['id'] . '" name="' . $attr['name'] . '" rows="'.$attr['rows'].'" cols="'.$attr['cols'].'" class="large-text '.$attr['field_class'].'" placeholder="' . $attr['placeholder'] . '">' . esc_textarea( $attr['value'] ) . '</textarea>';
-        $field .= $attr['desc'];
-        $field .= '</p>';
+        $field .= '<p class="description">' . $attr['desc'] . '</p>';
+        $field .= '</div>';
 
         if ( $attr['echo'] )
             echo $field;
@@ -668,9 +668,9 @@ Abstract Class Lumber {
 
         $attr = $this->getAttributes( $attr, $current_form );
 
-        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
+        $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '"><label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
         $field .= '<textarea class="large-text" name="' . $attr['name'] . '" placeholder="' . $attr['placeholder'] . '" rows="10">' . wp_kses( $attr['value'], '' ) . '</textarea>';
-        $field .= $attr['desc'];
+        $field .= '<p class="description">' . $attr['desc'] . '</p>';
         $field .= '</p>';
 
         if ( $attr['echo'] )
@@ -768,10 +768,10 @@ Abstract Class Lumber {
             $options .= '<label for="' . $id . '">' . $title . $required_html . '</label><br />';
         }
 
-        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $field .= $options;
-        $field .= $attr['desc'];
-        $field .= '</p>';
+        $field .= '<p class="description">' . $attr['desc'] . '</p>';
+        $field .= '</div>';
 
         if ( $attr['echo'] )
             echo $field;
@@ -809,7 +809,7 @@ Abstract Class Lumber {
             $image = null;
         }
 
-        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
         $field .= '<span class="lumber-form-fields-upload-container">';
         $field .= '<a href="#" class="button lumber-form-fields-media-upload-handle" style="margin-bottom: 10px;">' . __('Upload', 'lumber_alr_pro') . '</a><br />';
@@ -819,8 +819,8 @@ Abstract Class Lumber {
         $field .= '<br /><a href="#" class="lumber-form-fields-upload-remove-handle" ' . $style . '>' . __('Remove', 'lumber_alr_pro_settings') . '</a>';
         $field .= '<input type="hidden" class="lumber-form-fields-upload-attachment-id" id="'.$attr['id'].'" name="' . $attr['name'] . '" value="' . $attr['value'] . '"/>';
         $field .= '</span>';
-        $field .= '<br />' . $attr['desc'];
-        $field .= '</p>';
+        $field .= '<p class="description">' . $attr['desc'] . '</p>';
+        $field .= '</div>';
 
         if ( $attr['echo'] )
             echo $field;
@@ -844,10 +844,10 @@ Abstract Class Lumber {
 
         $attr = $this->getAttributes( $field, $current_form );
 
-        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
         $field .= $attr['std'];
-        $field .= '</p>';
+        $field .= '</div>';
 
         if ( $attr['echo'] )
             echo $field;
@@ -879,14 +879,14 @@ Abstract Class Lumber {
 
         add_thickbox();
 
-        $field  = '<p class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
+        $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
         $field .= '<label for="' . $attr['for'] . '">' . $attr['title'] . '</label>';
         $field .= '<a href="' . add_query_arg( array(
             'TB_iframe' => 'true',
             'width' => '600',
             'height' => '550'
             ), esc_url( $attr['std'] ) ) . '" class="thickbox">' . $attr['placeholder'] . '</a>';
-        $field .= '</p>';
+        $field .= '</div>';
 
         if ( $attr['echo'] )
             echo $field;
@@ -952,11 +952,11 @@ Abstract Class Lumber {
 
 
         // Final HTML
-        $field  = '<p class="' . $attr['row_class'] . ' lumber-form-touch-time" id="' . $attr['row_id'] . '">';
+        $field  = '<div class="' . $attr['row_class'] . ' lumber-form-touch-time" id="' . $attr['row_id'] . '">';
         /* translators: 1: month, 2: day, 3: year, 4: hour, 5: minute */
         $field .= sprintf( '%1$s %2$s, %3$s @ %4$s : %5$s', $month, $day, $year, $hour, $minute );
-        $field .= '<span class="desc">'  . $attr['desc'] . '</span>';
-        $field .= '</p>';
+        $field .= '<p class="description">'  . $attr['desc'] . '</p>';
+        $field .= '</div>';
 
         if ( $attr['echo'] ){
             echo $field;
