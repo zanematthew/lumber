@@ -39,8 +39,20 @@ Abstract Class Lumber {
         $checkbox = ( $type == 'checkbox' ) ? 'value="1" ' . checked( 1, $attr['value'], false ) : null;
         $size     = ( $type == 'checkbox' ) ? null : 'size="25"';
 
+        if ( $type == 'number' ){
+
+            $min = empty( $attr['min'] ) ? 'min="0"' : 'min="' . $attr['min'] . '"';
+            $max = empty( $attr['max'] ) ? 'max="5"' : 'max="' . $attr['max'] . '"';
+
+        } else {
+
+            $min = null;
+            $max = null;
+
+        }
+
         $field = '<input
-        type="' . $type . '" ' . $disabled . ' ' . $checkbox . '
+        type="' . $type . '" ' . $disabled . ' ' . $checkbox . ' ' . $min . ' ' . $max . '
         id="' . $attr['id'] . '"
         name="' . $attr['name'] . '"
         value="' . esc_attr( $attr['value'] ) . '"
@@ -102,6 +114,29 @@ Abstract Class Lumber {
     public function doEmail( $attr=null, $current_form=null ){
 
         $field = $this->doFancyText( $attr, $current_form, 'email' );
+
+        $attr = $this->getAttributes( $attr, $current_form );
+
+        if ( $attr['echo'] )
+            echo $field;
+        else
+            return $field;
+    }
+
+
+    /**
+     * Creates an HTML5 number input field
+     *
+     * @since 1.0.0
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doNumber( $attr=null, $current_form=null ){
+
+        $field = $this->doFancyText( $attr, $current_form, 'number' );
 
         $attr = $this->getAttributes( $attr, $current_form );
 
