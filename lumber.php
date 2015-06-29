@@ -55,6 +55,7 @@ Abstract Class Lumber {
             $attr['extra'] = null;
         }
 
+        // @todo clean this up!
         $field = '<input
         type="' . $type . '" ' . $disabled . ' ' . $checkbox . ' ' . $min . ' ' . $max . '
         id="' . $attr['id'] . '"
@@ -1071,7 +1072,8 @@ Abstract Class Lumber {
             'style'       => false,
             'std'         => false,
             'rows'        => 4,
-            'cols'        => 8
+            'cols'        => 8,
+            'autocomplete' => empty( $field['autocomplete'] ) ? null : $field['autocomplete']
         ) );
 
         return $attr;
