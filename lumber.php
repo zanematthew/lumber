@@ -51,6 +51,10 @@ Abstract Class Lumber {
 
         }
 
+        if ( empty( $attr['extra'] ) ){
+            $attr['extra'] = null;
+        }
+
         $field = '<input
         type="' . $type . '" ' . $disabled . ' ' . $checkbox . ' ' . $min . ' ' . $max . '
         id="' . $attr['id'] . '"
@@ -58,6 +62,8 @@ Abstract Class Lumber {
         value="' . esc_attr( $attr['value'] ) . '"
         placeholder="' . $attr['placeholder'] . '" ' . $size . $required . '
         class="' . $attr['field_class'] .'"
+        autocomplete="' . $attr['autocomplete'] . '"
+        ' . $attr['extra'] . '
         />';
 
         if ( $attr['echo'] && ! $force_return )
@@ -196,6 +202,31 @@ Abstract Class Lumber {
 
 
     /**
+     * Creates a Button HTML input field
+     *
+     * @since 1.0
+     *
+     * @param $attr             (array)     An array containing the HTML attributes to be
+     *                                      used in the field
+     * @param $current_form     (string)    The current form this field is relevant to
+     *
+     * @return $field           (mixed)     The HTML attribute, or prints
+     */
+    public function doButton( $attr=null, $current_form=null ){
+
+        $attr['field_class'] = 'button';
+        $field = $this->doFancyText( $attr, $current_form, 'button' );
+
+        $attr = $this->getAttributes( $attr, $current_form );
+
+        if ( $attr['echo'] )
+            echo $field;
+        else
+            return $field;
+    }
+
+
+    /**
      * Creates a hidden HTML input field
      *
      * @param $attr             (array)     An array containing the HTML attributes to be
@@ -251,7 +282,7 @@ Abstract Class Lumber {
 
         $attr = $this->getAttributes( $attr, $current_form );
 
-        if ( empty( $field['options'] ) )
+        if ( empty( $attr['options'] ) )
             return;
 
         $options = null;
@@ -259,7 +290,7 @@ Abstract Class Lumber {
         $required = ( $attr['req'] == true ) ? ' required ' : null;
         $required_html = ( $attr['req'] == true ) ? '<sup class="req">&#42;</sup>' : null;
 
-        foreach( $field['options'] as $k => $v ) {
+        foreach( $attr['options'] as $k => $v ) {
 
             $key = sanitize_title( $k );
             $id = $attr['id'] . '_' . $key;
