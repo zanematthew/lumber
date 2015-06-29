@@ -1046,7 +1046,7 @@ Abstract Class Lumber {
     public function getAttributes( $field=null, $current_form=null ){
 
         $current_form = empty( $field['namespace'] ) ? $current_form : $field['namespace'];
-        $field_id = isset( $field['id'] ) ? $field['id'] : null;
+        $field_id = $this->getFieldId( $field );
 
         if ( isset( $field['value'] ) ){
             $value = $field['value'];
@@ -1684,6 +1684,26 @@ Abstract Class Lumber {
     public function getBaseDirUrl(){
 
         return apply_filters( 'lumber_dir_url', plugin_dir_url( __FILE__ ) );
+
+    }
+
+
+    /**
+     * Generates a dynamic field id.
+     *
+     * @since   1.0.1
+     * @todo    make duplicate IDs dynamic by prefixing _$i
+     * @return  The dynamic field id
+     */
+    public function getFieldId( $field=null ){
+
+        if ( empty( $field['id'] ) ){
+            $field_id = trim( strtolower( str_replace( array(' ', '-'), '_', $field['title'] ) ) );
+        } else {
+            $field_id = $field['id'];
+        }
+
+        return $field_id;
 
     }
 }
