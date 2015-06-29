@@ -325,11 +325,8 @@ Abstract Class Lumber {
 
         $attr = $this->getAttributes( $attr, $current_form );
 
-        $id = ( empty( $field['id'] ) ) ? null : $field['id'];
-        $id = sanitize_title( $id );
-
-        $field = '<div class="' . $attr['row_class'] . ' lumber-form-open-fieldset" id="lumber_form_open_fieldset_' . $field['id'] . '">';
-        $field .= '<fieldset id="lumber_form_' . $current_form . '_' . $id . '_fieldset"><legend>' . $title . '</legend>';
+        $field = '<div class="' . $attr['row_class'] . ' lumber-form-open-fieldset" id="lumber_form_open_fieldset_' . $field_id . '">';
+        $field .= '<fieldset id="lumber_form_' . $current_form . '_' . $field_id . '_fieldset"><legend>' . $title . '</legend>';
 
         return $field;
 
@@ -1054,6 +1051,7 @@ Abstract Class Lumber {
             $value = empty( $field['std'] ) ? null : $field['std'];
         }
 
+
         $attr = wp_parse_args( $field, array(
             'for'         => $current_form . '_' . $field_id,
             'title'       => null,
@@ -1195,14 +1193,16 @@ Abstract Class Lumber {
 
                     foreach( $fields as $field ) :
 
+                        $field_id = $this->getFieldId( $field );
+
                         // Set default value
                         //
                         // If the ID is empty or the meta field is empty
                         // we set the default value to null
-                        if ( empty( $field['id'] ) || empty( $meta[ $field['id'] ] ) ){
+                        if ( empty( $feidl_id ) || empty( $meta[ $feidl_id ] ) ){
                             $field['value'] = null;
                         } else {
-                            $field['value'] = $meta[ $field['id'] ];
+                            $field['value'] = $meta[ $feidl_id ];
                         }
 
                         switch( $field['type'] ) {
