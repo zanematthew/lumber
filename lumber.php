@@ -1062,7 +1062,7 @@ Abstract Class Lumber {
             : 'lumber-form-default-row ' . $field['extra_class'],
             'field_class' => 'large-text',
             'row_id'      => 'lumber_form_' . $current_form . '_' . $field_id . '_row',
-            'id'          => $current_form . '_' . $field_id,
+            'id'          => $this->getFieldHtmlId( $field ),
             'req'         => null,
             'desc'        => empty( $field['desc'] ) ? null : '<span class="description">' . $field['desc'] . '</span>',
             'echo'        => false,
@@ -1704,6 +1704,20 @@ Abstract Class Lumber {
         }
 
         return $field_id;
+
+    }
+
+
+    /**
+     * Generates a dynamic field id.
+     *
+     * @since   1.0.1
+     * @todo    make duplicate IDs dynamic by prefixing _$i
+     * @return  The dynamic field id
+     */
+    public function getFieldHtmlId( $field=null ){
+
+        return $field['namespace'] . '_' . $this->getFieldId( $field );
 
     }
 }
