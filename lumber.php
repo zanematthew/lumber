@@ -976,7 +976,7 @@ Abstract Class Lumber {
 
         global $wp_locale;
 
-        if ( empty( $value ) ){
+        if ( empty( $attr['value'] ) ){
             $time_adj = current_time('timestamp');
 
             $jj = gmdate( 'd', $time_adj );
@@ -985,14 +985,15 @@ Abstract Class Lumber {
             $hh = gmdate( 'H', $time_adj );
             $mn = gmdate( 'i', $time_adj );
         } else {
-            $jj = $value['day'];
-            $mm = $value['month'];
-            $aa = $value['year'];
-            $hh = $value['hour'];
-            $mn = $value['minute'];
+            $jj = $attr['value']['day'];
+            $mm = $attr['value']['month'];
+            $aa = $attr['value']['year'];
+            $hh = $attr['value']['hour'];
+            $mn = $attr['value']['minute'];
         }
 
         $month = '<select name="' . $attr['name'] . '[month]">';
+        $month .= '<option value="00" ' . selected( '00', $mm, false ) . '> MM </option>';
 
         for ( $i = 1; $i < 13; $i = $i +1 ) {
 
