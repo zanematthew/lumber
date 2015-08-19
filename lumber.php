@@ -1032,6 +1032,41 @@ Abstract Class Lumber {
 
 
     /**
+     * Displays a group of select boxes that allows relating a Role to a Page ID
+     *
+     * @since 1.0.1
+     * @param array $args Arguments passed by the setting
+     * @return void
+     */
+    public function doRoleToPage( $attr=null, $current_form=null ) {
+
+        $attr = $this->getAttributes( $attr, $current_form );
+
+        $options = null;
+
+        foreach ( $attr['options'] as $option => $name ) {
+            if ( ! empty( $name ) ){
+
+                $pages = wp_dropdown_pages( array(
+                    'name' => $attr['name'] .'[' . $option . ']',
+                    'echo' => 0,
+                    'show_option_none' => ' ',
+                    'selected' => $attr['value'][ $option ] ) );
+
+                $options .= '<tr><td style="padding: 0 10px 0 0;">' . $name . '</td><td style="padding: 0;">' . $pages . '</td></tr>';
+            }
+        }
+
+        $html = '<table>' . $options . '</table>';
+        // $html .= '<label for="' . $attr['for'] . '"> '  . $attr['desc'] . '</label>';
+        $html .= '<p class="description">' . $attr['desc'] . '</p>';
+
+        echo $html;
+
+    }
+
+
+    /**
      * Builds an array of all possible HTML attributes for a given form field.
      *
      * @since   1.0.0
