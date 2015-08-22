@@ -295,9 +295,12 @@ Abstract Class Lumber {
 
             $key = sanitize_title( $k );
             $id = $attr['id'] . '_' . $key;
+            $container_class = $id . '_container';
 
+            $options .= '<span class="'.$container_class.'">';
             $options .= '<input type="radio" class="" name="'.$attr['name'].'" id="' . $id . '" value="' . $key . '" ' . checked( $key, $attr['value'], false ) . ' />';
-            $options .= '<label for="' . $id . '">' . $v . $required_html . '</label><br />';
+            $options .= '<label for="' . $id . '"><span>' . $v . $required_html . '</span></label><br />';
+            $options .= '</span>';
         }
 
         $field  = '<div class="' . $attr['row_class'] . '" id="' . $attr['row_id'] . '">';
@@ -1087,15 +1090,20 @@ Abstract Class Lumber {
             $value = empty( $field['std'] ) ? null : $field['std'];
         }
 
+        $extra_class = ( empty( $field['extra_class'] ) ) ? null : $field['extra_class'];
+        $row_classes = array(
+            'lumber-form-default-row',
+            $extra_class,
+            $current_form,
+            $field_id
+            );
 
         $attr = wp_parse_args( $field, array(
             'for'         => $current_form . '_' . $field_id,
             'title'       => null,
             'name'        => '_' . $current_form . '_form[meta]['.$field_id.']', // Other people can override the name, by passing it in with the field
             'placeholder' => null,
-            'row_class'   => ( empty( $field['extra_class'] ) )
-            ? 'lumber-form-default-row'
-            : 'lumber-form-default-row ' . $field['extra_class'],
+            'row_class'   => implode( " ", $row_classes ),
             'field_class' => 'large-text',
             'row_id'      => 'lumber_form_' . $current_form . '_' . $field_id . '_row',
             'id'          => $this->getFieldHtmlId( $field ),
