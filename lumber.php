@@ -871,6 +871,9 @@ Abstract Class Lumber {
         if ( $value ){
             $style = null;
             $image = '<img src="' . wp_get_attachment_thumb_url( $value ) . '" style="border: 1px solid #ddd;" />';
+        } elseif ( ! empty( $attr['std'] ) ){
+            $style = null;
+            $image = '<img src="' . esc_url( $attr['std'] ) . '" style="border: 1px solid #ddd;" />';
         } else {
             $style = 'style="display:none;"';
             $image = null;
