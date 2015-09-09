@@ -1,6 +1,15 @@
 <?php
 
 /**
+ * Lumber
+ *
+ * License:     GPLv2 or later (of-course)
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Author:      Zane M. Kolnik
+ */
+
+/**
  * This should be agnostic of meta vs. option
  * post_type is actually our "key"
  * This class can be broken out into 3 abstract classes?
